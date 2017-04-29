@@ -32,4 +32,16 @@ function updateSettings(){
     document.getElementById( "production" ).value = system.production;
 
 }
-updateSettings()
+
+window.addEventListener("message", receiveMessage, false);
+function receiveMessage(event){
+    if( event.data == "slide:start" ){
+        updateSettings();
+    }
+    if( event.data == "slide:stop" ){
+        ctx.clearRect( 0, 0, w,h );
+    }
+}
+window.onload = function(){
+    updateSettings();
+};

@@ -17,11 +17,14 @@
         .slides section.has-light-background h2 {
             color: #222;
         }
-
-        .small, .small li, .small a {
+        .small, .small li, .small a, .small code {
             font-size: .5em;
+            line-height: 1.25em;
         }
-
+        .reveal section img{
+            border:none;
+            box-shadow: none;
+        }
 
     </style>
 </head>
@@ -94,7 +97,7 @@
 
         </section>
 
-        <section data-background="img/purpose/nomansky.png">
+        <section data-background="img/examples/nomansky.png">
 
             <p><a href="https://www.nomanssky.com/">no man's sky</a></p>
 
@@ -104,13 +107,13 @@
 
             <p><a href="https://www.nomanssky.com/">no man's sky</a></p>
             <p><strong>system</strong>: planet generator</p>
-            <p><strong>simulation</strong>: update the world with game logic</p>
+            <p><strong>simulation</strong>: update the model with game logic</p>
             <p><strong>exploration</strong>: move & interact with the world</p>
             <p><strong>visualisation</strong>: rendering a 3D scene</p>
 
         </section>
 
-        <section data-background="img/purpose/nervous.png">
+        <section data-background="img/examples/nervous.png">
 
             <p><a href="http://n-e-r-v-o-u-s.com/index.php">nervous systems - KINEMATICS FOLD</a></p>
 
@@ -126,7 +129,7 @@
 
         </section>
 
-        <section data-background="img/purpose/uss.png">
+        <section data-background="img/examples/uss.png">
 
             <p><a href="http://wearechopchop.com/%E2%80%9Cunnamed-soundsculpture%E2%80%9D/">unnamed sound sculpture</a></p>
 
@@ -226,7 +229,7 @@
         </section>
 
         <section>
-            <h3>a 1 dimensional unit</h3>
+            <h3>unidimensional datum</h3>
             <br>
             a bit: 0 or 1<br>
             <br>
@@ -238,7 +241,7 @@
         </section>
 
         <section>
-            <h3>the 1D <i>extension pack</i></h3>
+            <h3>1D <i>extension pack</i></h3>
             <ul>
                 <li>bit (0/1)</li>
                 <li>byte / octet: 8 bits</li>
@@ -258,23 +261,21 @@
         </section>
 
         <section>
-            <h3>data in 2 dimensions</h3>
+            <h3>2 dimensional data</h3>
             series of unidimesnsional data<br>
             <ul>
                 <li>typed linear array: ["a", "b", "c"] /  [ 0, 1, 2 ]</li>
                 <li>string : "Nicolas Barradeau"</li>
-                <li>an empty image: [  width, height ]</li>
-                <li>a mono-channel sound : [ value, time ]</li>
-                <li>2D point: [ X, Y ]</li>
+                <li>an empty image: [  width * height ]</li>
             </ul>
         </section>
 
         <section>
-            <h3>data in 3 dimensions</h3>
+            <h3>3 dimensional data</h3>
             combinatorics of unidimensional data<br>
             <ul>
                 <li>color: { R, G, B }</li>
-                <li>3D vector: { X, Y, Z }</li>
+                <li>a vector: { X, Y, Z }</li>
                 <li>binary pixel: { X, Y, value }</li>
             </ul>
         </section>
@@ -357,8 +358,7 @@
         <section>
             <h3>synthetic data</h3>
             <ul>
-                <li>noise</li>
-                <li>fractals</li>
+                <li>noise, fractals, turbulence...</li>
                 <li>photogrammetry <br>
                     (build 3D models from 2D pictures)</li>
                 <li>GANs (AI)</li>
@@ -368,7 +368,7 @@
         <section>
             <p>there are plenty of data around us</p>
             <p>we use more and more complex data (feature vectors)</p>
-            <p>reduced to a set of <i>unidimensional</i> variables,<br>
+            <p>reduced to sets of <i>unidimensional</i> variables,<br>
             these data can <i>shift</i> between various <i>spaces</i></p>
         </section>
 
@@ -522,33 +522,32 @@
             an <i>axiom</i> as an input and determines if it is valid
 
         </section>
+
+        <section>
+            <p>the next illustration is a "finite state machine"<br>
+                it describes all the production rules relationships</p>
+        </section>
+
         <section>
             <img src="img/process/formal_grammar.png" class="stretch">
             <p class="small"><a href="http://www.pnas.org/content/93/24/13515.full">picture source</a></p>
         </section>
 
         <section>
-            <p>the previous illustration is a "finite state machine"<br>
-                it describes all the production rules relationships</p>
-            <p>rather than writing a <i>dictionary</i> of all the valid <i>axioms</i>,<br>
-                we use a tool to ckeck if an <i>axiom</i> is valid</p>
+            <p>instead of writing a <i>dictionary</i> of all the valid <i>axioms</i>,<br>
+                we use this FSM to ckeck if an <i>axiom</i> is valid</p>
         </section>
 
         <section>
             <img src="img/process/formal_grammar_test.png" class="stretch">
         </section>
 
-        <section>
-            <p>this is the essence of procedural generation:</p>
-            describing the rules of production<br>
-            rather than the objects themeselves.
-        </section>
 
         <section>
             <h3>L-system</h3>
-            variation on formal grammar used to model<br> plants' growth,
-            it introduces the notion of <br>
-            <i>rewriting</i>, <i>trees</i> and <i>recursion</i>
+            variation on formal grammar used to model<br>
+            plants' growth, it introduces the concepts of <br>
+            <i>rewriting, iteration, trees & recursion</i>
         </section>
 
         <section>
@@ -565,31 +564,202 @@ n=2:     A B     A       (A→AB), (B→A)
         /| |     |\
 n=3:   A B A     A B     (A→AB), (B→A), (A→AB)
       /| | |\    |\ \
-n=4: A B A A B   A B A   (A→AB), (B→A), (A→AB), (A→AB), (B→A)
-
-            </code></pre>
+n=4: A B A A B   A B A   (A→AB), (B→A), (A→AB), (A→AB), (B→A)</code></pre>
         </section>
 
         <section>
-            <iframe src="img/process/code/lsystem.html" class="stretch"></iframe>
+            <iframe src="img/process/code/l_system/index.html" class="stretch"></iframe>
         </section>
 
         <section>
+            <p>this is the essence of procedural generation:</p>
+            describing the rules of production rather<br>
+            than describing the objects themeselves
+        </section>
 
-            <h3>context free grammar</h3>
-            recursively applies <i>production rules</i> and stops when the <i>axiom</i> only contains terminal symbols
+        <section>
+            <h3>iteration</h3>
+        </section>
 
+        <section data-background-image="img/process/iteration.png">
+            <pre class="small stretch"><code><mark>var RAD = Math.PI / 180;
+
+//stores some vairables
+var points = [];
+var angles = [];
+var speeds = [];
+for( var i = 0; i < 20; i++ ){
+
+    //point position
+    points.push( [w/2, h/2] );
+    //starting angle
+    angles.push( Math.random() * Math.PI * 2 );
+    //rotation speed
+    speeds.push( 5 + Math.random() * 25 );
+
+}
+
+ctx.beginPath();
+//iterate 2000 times
+for( i = 0; i < 2000; i++ ){
+
+    //iterate over all points
+    points.forEach( function( p, id ){
+
+        //move to current position
+        ctx.moveTo( p[0], p[1] );
+
+        //updates angle
+        angles[id] += ( Math.random() - .5 ) * RAD * speeds[id];
+
+        //updates poistion
+        p[0] += Math.sin( angles[id] );
+        p[1] += Math.cos( angles[id] );
+
+        //draws line to new position
+        ctx.lineTo( p[0], p[1] );
+
+    });
+}
+ctx.stroke();</mark></code></pre>
         </section>
 
         <section>
             <h3>recursion</h3>
         </section>
 
+        <section data-background-image="img/process/sierpinski.png">
+            <pre class="small stretch"><code><mark>function draw(p0, p1, p2) {
+    ctx.beginPath();
+    ctx.moveTo(p0[0], p0[1]);
+    ctx.lineTo(p1[0], p1[1]);
+    ctx.lineTo(p2[0], p2[1]);
+    ctx.closePath();
+    ctx.stroke();
+}
+
+function sierpinski(p0, p1, p2, count ) {
+    //break condition
+    if(count <= 0) {
+        //render
+        draw(p0, p1, p2);
+    }else{
+
+        //decrease the counter
+        count--;
+
+        //find the edges' centers
+        var a = [ ( p0[0] + p1[0] ) / 2, (p0[1] + p1[1]) / 2 ];
+        var b = [ ( p1[0] + p2[0] ) / 2, (p1[1] + p2[1]) / 2 ];
+        var c = [ ( p2[0] + p0[0] ) / 2, (p2[1] + p0[1]) / 2 ];
+
+        //calls the method on the new triangles
+        sierpinski( p0, a, c, count );
+        sierpinski( p1, b, a, count );
+        sierpinski( p2, c, b, count );
+    }
+}
+sierpinski( points[0], points[1], points[2], 6 );</mark>
+</code></pre>
+        </section>
 
         <section>
-            the results are tightly bound to the data<br>
-            with a unified data model, any process can be applied to the dataset<br>
+            <h3>recursive tree</h3>
         </section>
+
+        <section data-background-image="img/process/tree.png">
+            <pre class="small stretch"><code><mark>function branch(length, angle) {
+
+    line(0, 0, 0, -length);
+    ctx.translate(0, -length);
+
+    if (length > 2) {
+
+        length *= 0.65;
+
+        ctx.save();
+        ctx.rotate(angle);
+        branch(length, angle);
+        ctx.restore();
+
+        ctx.save();
+        ctx.rotate(-angle);
+        branch(length, angle);
+        ctx.restore();
+    }
+}
+
+function line(x0, y0, x1, y1) {
+    ctx.beginPath();
+    ctx.moveTo(x0, y0);
+    ctx.lineTo(x1, y1);
+    ctx.stroke();
+}
+ctx.translate(w/2,h/2 + 300);
+branch( 200, Math.PI / 180 * 30 );</mark></code></pre>
+        </section>
+
+        <section>
+            <h3>graph</h3>
+        </section>
+
+        <section data-background-image="img/process/mst.png">
+            <pre class="small stretch"><code><mark>var Vertex = function( data ){ /*store the data*/ }
+
+var Edge = function( v0, v1 ){
+    this.v0 = v0;
+    this.v1 = v1;
+}
+
+var Graph = function( vertices, edges ){
+    this.vertices = vertices;
+    this.edges = edges;
+}
+
+//create two vertices
+var A = new Vertex( data );
+var B = new Vertex( data );
+
+//create an edge to bind the two vertices
+var E = new Edge( A, B );
+
+//create a graph
+var graph = new Graph( [ A, B ], [ E ] );</mark></code></pre>
+        </section>
+
+
+            <section>
+
+                <h3>context free grammar</h3>
+                <i>recursively</i> applies <i>production rules</i> and stops when the <i>axiom</i> only contains terminal symbols (primitives)
+
+            </section>
+
+            <section data-background-image="img/process/structure_synth0.png">
+                <h3><a href="http://structuresynth.sourceforge.net/">structuresynth</a></h3>
+                <pre class="small"><code>#define _col0 #F00
+#define _col1 #FF0
+#define _inc 0.1
+40 * {   y 0.1 ry 9 rz -2 s 1.01 1.01 1.01 color _col0  }column
+rule column w 0.5{
+    { y 0.5 ry 18   blend _col1 _inc     }box
+}
+rule column w 0.2{
+    { x -0.25 z -0.25 y 0.5 s 0.8  blend _col1 _inc     } box
+}
+rule column w 0.2{
+    20 * { rx 1 ry 1.5 rz 3 s 0.75 0.95 1.10  blend _col1 _inc }box
+}</code></pre>
+            </section>
+
+            <section data-background-image="img/process/structure_synth1.png">
+            </section>
+
+            <section data-background-image="img/process/structure_synth2.png">
+            </section>
+
+            <section data-background-image="img/process/structure_synth3.png">
+            </section>
 
 
 

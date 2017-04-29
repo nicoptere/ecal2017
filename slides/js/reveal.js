@@ -4947,7 +4947,7 @@
 		navigatePrev: navigatePrev,
 		navigateNext: navigateNext,
 
-		// Forces an update in slide layout
+		// Forces an reset in slide layout
 		layout: layout,
 
 		// Randomizes the order of slides

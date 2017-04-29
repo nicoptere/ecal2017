@@ -58,13 +58,20 @@ Lsystem.prototype = {
             if ( char == '[' ){
 
                 if ( this.production.substr( i+1, this.production.length ).lastIndexOf( ']' ) == -1 ) continue;
+                ctx.stroke();
 
                 tmp = turtle.clone();
+                ctx.save();
+                ctx.beginPath();
+                ctx.moveTo( tmp.x, tmp.y, 2, 0, Math.PI * 2 );
                 while ( char != ']'){
                     char = this.production.charAt( i++ );
                     this.process( ctx, char, tmp );
                 }
+                ctx.stroke();
+                ctx.restore();
 
+                ctx.beginPath();
                 ctx.arc( turtle.x, turtle.y, 2, 0, Math.PI * 2 );
                 ctx.moveTo( turtle.x, turtle.y );
 
@@ -73,7 +80,6 @@ Lsystem.prototype = {
         ctx.stroke();
         ctx.restore();
     },
-
 
     compute : function( gens ){
         this.production = this.axiom.toLowerCase();
