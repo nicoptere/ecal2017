@@ -6,6 +6,8 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
+
+    <!--<link rel="stylesheet" href="css/print/pdf.css">-->
     <link rel="stylesheet" href="css/reveal.css">
     <link rel="stylesheet" href="css/theme/white.css" id="theme">
     <style type="text/css" media="screen">
@@ -17,6 +19,7 @@
         .slides section.has-light-background h2 {
             color: #222;
         }
+        .pdf .small, .pdf .small li, .pdf .small a, .pdf .small code,
         .small, .small li, .small a, .small code {
             font-size: .5em;
             line-height: 1.25em;
@@ -153,7 +156,7 @@
                 <li>make particle fall & disappear</li>
             </ul>
             <p>the particles move & disappear <i>procedurally</i></p>
-            <p>this piece is tightly related to the kinect data</p>
+            <p>this system can work for any 4D data set</p>
         </section>
 
         <section>
@@ -369,9 +372,9 @@
             </ul>
         </section>
 
+
         <section>
-            <p>there are plenty of data around us</p>
-            <p>we use more and more complex data (feature vectors)</p>
+            <p>there are  more and more data available and they become more and more complex (feature vectors)</p>
             <p>reduced to sets of <i>unidimensional</i> variables,<br>
             these data can <i>shift</i> between various <i>spaces</i></p>
         </section>
@@ -523,15 +526,222 @@
 
         <section>
             <h3>3. process</h3>
-            hic sunt dracones
+            data space design
         </section>
+
+
+
+        <section>
+            <h3>grid / frame distribution</h3>
+        </section>
+
+        <section data-background-image="img/process/grid.png">
+            <pre class="small stretch"><code><mark>//regular grid with 50px cells
+var cellSize = 50, i, j;
+for( i = 0; i <= w; i += cellSize ){
+    for( j = 0; j <= h; j += cellSize ){
+
+        //grid cell indices
+        var cell_x = Math.round( i / cellSize );
+        var cell_y = Math.round( j / cellSize );
+
+        //grid
+        circle( i, j, 2 );
+
+        //sub-grid
+        if( ( cell_x >= 20 && cell_x <= 26 )
+        &&  ( cell_y >= 8 && cell_y <= 20 ) ){
+            circle( i, j, 5 );
+        }
+
+        //frame
+        //horizontal lines
+        if( ( cell_x >= 16 && cell_x <= 30 )
+        &&  ( cell_y == 3 || cell_y == 12 ) ){
+            circle( i, j, 10 );
+        }
+
+        //verical lines
+        if( ( cell_x == 16 || cell_x == 30 )
+        &&  ( cell_y >= 3 && cell_y <= 12 ) ){
+            circle( i, j, 10 );
+        }
+    }
+}</mark></code></pre>
+        </section>
+
+        <section>
+            <h3>polar distribution</h3>
+        </section>
+
+        <section data-background-image="img/process/circular.png">
+            <pre class="small stretch"><code><mark>//points count
+var count = 24;
+
+//angle step ( angle between 2 points on the circle )
+var step = Math.PI * 2 / count;
+
+//circle radius
+var radius = h / 3;
+
+//circle distribution
+for( var angle = 0; angle < Math.PI * 2; angle += step ){
+
+    //computes the X / Y position
+    var x = Math.cos( angle ) * radius;
+    var y = Math.sin( angle ) * radius;
+
+    //draw this point
+    circle( x, y, 10 );
+
+}
+
+//radial distribution
+var radialSegments = 15;
+for( angle = 0; angle < Math.PI * 2; angle += step * 2 ){
+    for( var i = 0; i < radialSegments; i++ ){
+        var r = i * ( radius / radialSegments);
+        x = Math.cos( angle ) * r;
+        y = Math.sin( angle ) * r;
+        circle( x, y, 3 );
+    }
+}
+
+//spiral distribution
+var turns = 3;
+for( angle = 0; angle < Math.PI * 2 * turns; angle += step / 4 ){
+    r = radius * ( angle / ( Math.PI * 2 * turns ) );
+    console.log( i / ( Math.PI * 2 * turns ) );
+    x = Math.cos( angle ) * r;
+    y = Math.sin( angle ) * r;
+    circle( x, y, 1 );
+}</mark></code></pre>
+        </section>
+
+        <section>
+            <h3>triangular distribution</h3>
+        </section>
+
+        <section data-background-image="img/process/triangular.png">
+            <pre class="small stretch"><code><mark>function reset(){
+    //measures of an equalateral triangle
+    var sides = 3;
+    var L = 2 * Math.sin( Math.PI / sides ); //side length
+    var A = L / ( 2 * Math.tan( Math.PI / sides ) ); //apothem
+    var H = ( 1 + A ); //radius + apothem
+
+    var size = 50;
+    L *= size;
+    H *= size;
+
+    var mx = 2 * Math.ceil( w / L );
+    var my = Math.ceil( h / H );
+
+    for( var i = 0; i < w; i+= mx ){
+
+        for( var j = 0; j <= h; j+= my ){
+
+            //cell indices
+            var cx = Math.round( i/mx );
+            var cy = Math.round( j/my );
+
+            //coordinates
+            var x = ( cx ) * L/2;
+            var y = ( cy ) * H;
+
+            //triangular
+            if(( Math.abs( cx ) % 2 == 1 && Math.abs( cy ) % 2 == 0 )
+            || ( Math.abs( cx ) % 2 == 0 && Math.abs( cy ) % 2 == 1 ) ){
+
+                circle( x, y, 5 );
+
+                //hexagonal
+                if( Math.abs( Math.abs( cx ) % 4 ) == 0
+                ||  Math.abs( Math.abs( cy ) % 2 ) == 0 ){
+                    circle( x, y, 10 );
+                }
+            }else{
+                circle( x, y, 1 );
+            }
+        }
+    }
+}</mark></code></pre>
+        </section>
+
+        <section>
+            <h3>extension to 3D space</h3>
+            <ul>
+                <li>box, extruded frame</li>
+                <li>torus, sphere</li>
+                <li>regular polyhedron</li>
+            </ul>
+        </section>
+
+
+        <section>
+            <h3>fields</h3>
+            assign a value at given locations in space
+        </section>
+
+        <section data-background-image="img/process/vector_field.png">
+            <pre class="small stretch"><code><mark>var HPI = Math.PI / 2;
+function angle(a,b){
+    var dx = a[0] - b[0];
+    var dy = a[1] - b[1];
+    return Math.atan2( dy, dx );
+}
+//method to draw an arrow
+function drawArrow( p0, p1, size ){
+    var a = angle( p0, p1 );
+    ctx.beginPath();
+    ctx.moveTo(p0[0], p0[1]);
+    ctx.lineTo(p0[0] + Math.cos( a + HPI ) * size, p0[1] + Math.sin( a + HPI ) * size);
+    ctx.lineTo(p1[0], p1[1]);
+    ctx.lineTo(p0[0] + Math.cos( a - HPI ) * size, p0[1] + Math.sin( a - HPI ) * size);
+    ctx.fill();
+}
+//this is the value at a given X/Y location
+function getValue( x, y ){
+    return Math.cos( x ) * Math.sin( y ) + Date.now() * 0.001;
+}
+function reset() {
+    var cellSize = 50;
+    var points = [];
+    var values = [];
+    //regular grid with 50px cells that covers the screen
+    for( var i = 0; i <= w; i += cellSize ){
+        for( var j = 0; j <= h; j += cellSize ){
+            points.push( [i,j] );
+            values.push( getValue( i, j ) );
+        }
+    }
+    //draws an arrow at each point (lattice)
+    points.forEach( function( p, id ){
+
+        //direction
+        var p1 = [
+            p[0] + Math.cos( values[id] ) * cellSize * .75,
+            p[1] + Math.sin( values[id] ) * cellSize * .75
+        ];
+
+        //draw arrow
+        drawArrow( p, p1, cellSize * .2 );
+    });
+}</mark></code></pre>
+        </section>
+
+
+
+
+
+
 
         <section>
             <h3>grammar</h3>
             series of rules that defines all<br>
             valid sentences of a language
-
         </section>
+
         <section>
 
             <h3>formal grammar</h3>
@@ -585,7 +795,7 @@ n=4: A B A A B   A B A   (A→AB), (B→A), (A→AB), (A→AB), (B→A)</code></
         </section>
 
         <section>
-            <iframe src="img/process/code/l_system/index.html" class="stretch"></iframe>
+            <iframe src="../code/l_system/index.html" class="stretch"></iframe>
         </section>
 
         <section>
@@ -745,6 +955,57 @@ var graph = new Graph( [ A, B ], [ E ] );</mark></code></pre>
         </section>
 
 
+
+        <section>
+            <h3>some useful methods</h3>
+        </section>
+
+        <section>
+            <h3>linear interpolation</h3>
+            <pre><code>function lerp ( t, a, b ){
+    return a * (1-t) + b * t;
+}</code></pre>
+            <h3>normalisation</h3>
+            <pre><code>function norm( t, a, b ){
+    return ( t - a ) / ( b - a );
+}</code></pre>
+            <h3>mapping</h3>
+            <pre><code>function map( t, a0, b0, a1, b1 ){
+    return lerp( norm( t, a0, b0 ), a1, b1 );
+}</code></pre>
+        </section>
+
+
+        <section>
+            <h3>distance</h3>
+            <pre><code>function distance( p0, p1 ){
+    var dx = p0.x - p1.x;
+    var dy = p0.y - p1.y;
+    return sqrt( dx * dx + dy * dy );
+}</code></pre>
+            <h3>angle</h3>
+            <pre><code>function angle( p0, p1 ){
+    return atan2( p1.y - p0.y, p1.x - p0.x );
+}</code></pre>
+        </section>
+        <section>
+            <h3>polar coordinates</h3>
+            <pre><code>x = cos( angle ) * radius;
+y = sin( angle ) * radius;</code></pre>
+            <h3>cylindrical coordinates</h3>
+            <pre><code>x = cos( angle ) * radius;
+y = height value;
+z = sin( angle ) * radius;
+</code></pre>
+            <h3>spherical coordinates</h3>
+            <pre><code>var theta = 0 &gt; ? &gt; PI * 2;
+var phi = -PI &gt; ? &gt; PI;
+x = sin(theta) * cos( phi ) * radius;
+y = sin(theta ) * sin( phi ) * radius;
+z = cos( theta ) * radius;</code></pre>
+        </section>
+
+
             <section>
 
                 <h3>context free grammar</h3>
@@ -782,100 +1043,28 @@ rule column w 0.2{
 
     </section>
 
-        <!--
 
-        <section data-background="#bb00bb">
-            <h3>data-background: #bb00bb</h3>
+    <section>
+
+        <section>
+            <h3>parametrisation & expressiveness</h3>
+            drawing an ant
         </section>
 
-        <section data-background-color="lightblue">
-            <h3>data-background: lightblue</h3>
+        <section data-background-image="img/data/ant/3D.jpg">
+            <a href="http://jabjork.cgsociety.org/art/ant-3ds-atta-max-laevigata-zbrush-photoshop-realistic-3d-1154254">ANT (Atta laevigata) by javier porcel</a>
         </section>
 
         <section>
-            <section data-background="#ff0000">
-                <h3>data-background: #ff0000</h3>
-            </section>
-            <section data-background="rgba(0, 0, 0, 0.2)">
-                <h3>data-background: rgba(0, 0, 0, 0.2)</h3>
-            </section>
-            <section data-background="salmon">
-                <h3>data-background: salmon</h3>
-            </section>
+            <img src="img/data/ant/step4.png">
+            <img src="img/data/ant/step3.png">
+            <img src="img/data/ant/step2.png">
+            <img src="img/data/ant/step1.png">
+            depending on the context those are equally valid representations of an ant, use relevant parameters
         </section>
 
-        <section data-background="rgba(0, 100, 100, 0.2)">
-            <section>
-                <h3>Background applied to stack</h3>
-            </section>
-            <section>
-                <h3>Background applied to stack</h3>
-            </section>
-            <section data-background="rgb(66, 66, 66)">
-                <h3>Background applied to slide inside of stack</h3>
-            </section>
-        </section>
+    </section>
 
-        <section data-background-transition="slide" data-background="assets/image1.png">
-            <h3>Background image</h3>
-        </section>
-
-        <section>
-            <section data-background-transition="slide" data-background="assets/image1.png">
-                <h3>Background image</h3>
-            </section>
-            <section data-background-transition="slide" data-background="assets/image1.png">
-                <h3>Background image</h3>
-            </section>
-        </section>
-
-        <section data-background="assets/image2.png" data-background-size="100px" data-background-repeat="repeat" data-background-color="#111">
-            <h3>Background image</h3>
-            <pre>data-background-size="100px" data-background-repeat="repeat" data-background-color="#111"</pre>
-        </section>
-
-        <section data-background="#888888">
-            <h3>Same background twice (1/2)</h3>
-        </section>
-        <section data-background="#888888">
-            <h3>Same background twice (2/2)</h3>
-        </section>
-
-        <section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm">
-            <h3>Video background</h3>
-        </section>
-
-        <section data-background-iframe="https://slides.com/news/make-better-presentations/embed?style=hidden&autoSlide=4000">
-            <h3>Iframe background</h3>
-        </section>
-
-        <section>
-            <section data-background="#417203">
-                <h3>Same background twice vertical (1/2)</h3>
-            </section>
-            <section data-background="#417203">
-                <h3>Same background twice vertical (2/2)</h3>
-            </section>
-        </section>
-
-        <section data-background="#934f4d">
-            <h3>Same background from horizontal to vertical (1/3)</h3>
-        </section>
-        <section>
-
-            <section data-background="#934f4d">
-                <h3>Same background from horizontal to vertical (2/3)</h3>
-
-            </section>
-
-
-            <section data-background="#934f4d">
-                <h3>Same background from horizontal to vertical (3/3)</h3>
-            </section>
-
-
-        </section>
-        -->
     </div>
 
 </div>
@@ -890,10 +1079,9 @@ rule column w 0.2{
     Reveal.initialize({
         history: true,
         center: true,
-//         rtl: true,
+        pdfMaxPagesPerSlide: 1,
 
         transition: 'none',
-        // transitionSpeed: 'slow',
         backgroundTransition: 'none'
     });
 
