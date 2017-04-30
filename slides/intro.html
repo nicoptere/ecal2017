@@ -40,9 +40,9 @@
     </section>
 
     <section>
-        <h4>Procedural Content Generation</h4>
-        <p>procedural: design a process rather than an object</p>
+        <h4>Procedural Content Generation (PCG)</h4>
         <p>generation is programmatic & often pseudo-random</p>
+        <p>design a <i>process</i> rather than an <i>object</i></p>
     </section>
 
     <section>
@@ -78,21 +78,21 @@
 
         <section>
 
-            <h3>systematization</h3>
+            <h3>modelization</h3>
             <p>create the model of a system</p>
 
             <h3>simulation</h3>
-            <p>use the system to process data</p>
+            <p>use the model to process data</p>
 
             <h3>exploration</h3>
-            <p>change the system's parameter</p>
+            <p>change the model's parameter</p>
 
         </section>
 
         <section>
 
             <h3>corollary: visualisation</h3>
-            <p>rendering the system: 2D, 3D graphics,<br>
+            <p>rendering the model: 2D, 3D graphics,<br>
                 video, tangible objects, installation...</p>
 
         </section>
@@ -106,9 +106,9 @@
         <section>
 
             <p><a href="https://www.nomanssky.com/">no man's sky</a></p>
-            <p><strong>system</strong>: planet generator</p>
+            <p><strong>model</strong>: universe generator</p>
             <p><strong>simulation</strong>: update the model with game logic</p>
-            <p><strong>exploration</strong>: move & interact with the world</p>
+            <p><strong>exploration</strong>: move & interact with the model</p>
             <p><strong>visualisation</strong>: rendering a 3D scene</p>
 
         </section>
@@ -122,7 +122,7 @@
         <section>
 
             <p><a href="http://n-e-r-v-o-u-s.com/index.php">nervous systems - KINEMATICS FOLD</a></p>
-            <p><strong>system</strong>: triangle based patch modeler</p>
+            <p><strong>model</strong>: triangle based patch modeler</p>
             <p><strong>simulation</strong>: apply physics rules to the model</p>
             <p><strong>exploration</strong>: change the base model</p>
             <p><strong>visualisation</strong>: 3D renders & 3D print</p>
@@ -153,18 +153,7 @@
                 <li>make particle fall & disappear</li>
             </ul>
             <p>the particles move & disappear <i>procedurally</i></p>
-            <p>the piece is tightly related to the source data</p>
-        </section>
-
-        <section>
-            <h3>downsides</h3>
-            <ul>
-                <li>mathematical uniqueness is often not<br>
-                    enough to create significant differences</li>
-                <li>hard to maintain consistent variations<br>
-                    when using numerous variables</li>
-                <li>hard to assess "good" settings</li>
-            </ul>
+            <p>this piece is tightly related to the kinect data</p>
         </section>
 
         <section>
@@ -177,6 +166,19 @@
                     surprising or unexpected results</li>
             </ul>
         </section>
+
+        <section>
+            <h3>downsides</h3>
+            <ul>
+                <li>mathematical uniqueness is often not<br>
+                    enough to create significant differences</li>
+                <li>hard to maintain consistent variations<br>
+                    while using numerous variables</li>
+                <li>hard to assess a "good" settings<br>
+                    human curation required</li>
+            </ul>
+        </section>
+
     </section>
 
     <!--data-->
@@ -216,7 +218,7 @@
 
         <section>
             any given object can be described by<br>
-            a variable number of 'dimensions'<br>
+            a variable number of <i>dimensions</i><br>
             <br>
             the values of each dimension of an object<br>
             can vary without affecting the others
@@ -229,13 +231,14 @@
         </section>
 
         <section>
-            <h3>unidimensional datum</h3>
+            <h3>computer representation<br>
+                of a unidimensional datum</h3>
             <br>
-            a bit: 0 or 1<br>
+            the BIT<br>
+            0 / 1<br>
             <br>
-            can only describe whether a<br>
-            given property of the object<br>
-            "is" or "isn't"
+            limitation: it can only describe whether a<br>
+            given property of the object "is" or "isn't"
             <br>
 
         </section>
@@ -244,7 +247,7 @@
             <h3>1D <i>extension pack</i></h3>
             <ul>
                 <li>bit (0/1)</li>
-                <li>byte / octet: 8 bits</li>
+                <li>byte / octet: 8 bits & 256 integer values</li>
                 <li>int, float, uint, double: 8, 16, 32, 64 bits<br>
                 <li>single character: 7 bits (US ASCII ), 32 bit (UTF-32)</li>
             </ul>
@@ -253,7 +256,7 @@
         <section>
 
             in the computers's memory, a number<br>or a
-            character is stored as an array of bits
+            character is stored as an array of bits<br>
             <img src="img/data/float.png"><br>
             so, technically, a number is itself <br>
             a N-dimensional object
@@ -281,7 +284,7 @@
         </section>
 
         <section>
-            <h3>data in higher dimensions</h3>
+            <h3>N-dimensional data</h3>
             complex <i>data structures</i><br>
             <ul>
                 <li>pixel, color: { X, Y, R, G, B }</li>
@@ -292,13 +295,14 @@
             </ul>
         </section>
         <section>
-            <h3>N-DIMENSIONS</h3>
+            <h3>?-DIMENSIONS</h3>
             how many dimensions to a TWEET?
-            <pre><code> {<br>  "coordinates": null,<br>  "favorited": false,<br>  "created_at": "Wed Sep 05 00:37:15 +0000 2012",<br>  "truncated": false,<br>  "id_str": "243145735212777472",<br>  "entities": {<br>    "urls": [<br>    ],<br>    "hashtags": [<br>      {<br>        "text": "peterfalk",<br>        "indices": [<br>          35,<br>          45<br>        ]<br>      }<br>    ],<br>    "user_mentions": [<br><br>    ]<br>  },<br>  "in_reply_to_user_id_str": null,<br>  "text": "Maybe he'll finally find his keys. #peterfalk",<br>  "contributors": null,<br>  "retweet_count": 0,<br>  "id": 243145735212777472,<br>  "in_reply_to_status_id_str": null,<br>  "geo": null,<br>  "retweeted": false,<br>  "in_reply_to_user_id": null,<br>  "place": null,<br>  "user": {<br>    "name": "Jason Costa",<br>    "profile_sidebar_border_color": "86A4A6",<br>    "profile_sidebar_fill_color": "A0C5C7",<br>    "profile_background_tile": false,<br>    "profile_image_url": "http://a0.twimg.com/profile_images/1751674923/new_york_beard_normal.jpg",<br>    "created_at": "Wed May 28 00:20:15 +0000 2008",<br>    "location": "",<br>    "is_translator": true,<br>    "follow_request_sent": false,<br>    "id_str": "14927800",<br>    "profile_link_color": "FF3300",<br>    "entities": {<br>      "url": {<br>        "urls": [<br>          {<br>            "expanded_url": "http://www.jason-costa.blogspot.com/",<br>            "url": "http://t.co/YCA3ZKY",<br>            "indices": [<br>              0,<br>              19<br>            ],<br>            "display_url": "jason-costa.blogspot.com"<br>          }<br>        ]<br>      },<br>      "description": {<br>        "urls": [<br><br>        ]<br>      }<br>    },<br>    "default_profile": false,<br>    "contributors_enabled": false,<br>    "url": "http://t.co/YCA3ZKY",<br>    "favourites_count": 883,<br>    "utc_offset": -28800,<br>    "id": 14927800,<br>    "profile_image_url_https": "https://si0.twimg.com/profile_images/1751674923/new_york_beard_normal.jpg",<br>    "profile_use_background_image": true,<br>    "listed_count": 150,<br>    "profile_text_color": "333333",<br>    "protected": false,<br>    "lang": "en",<br>    "followers_count": 8760,<br>    "time_zone": "Pacific Time (US &amp; Canada)",<br>    "profile_background_image_url_https": "https://si0.twimg.com/images/themes/theme6/bg.gif",<br>    "verified": false,<br>    "profile_background_color": "709397",<br>    "notifications": false,<br>    "description": "Platform at Twitter",<br>    "geo_enabled": true,<br>    "statuses_count": 5532,<br>    "default_profile_image": false,<br>    "friends_count": 166,<br>    "profile_background_image_url": "http://a0.twimg.com/images/themes/theme6/bg.gif",<br>    "show_all_inline_media": true,<br>    "screen_name": "jasoncosta",<br>    "following": false<br>  },<br>  "source": "&lt;a href=\"http://jason-costa.blogspot.com\" rel=\"nofollow\"&gt;My Shiny App&lt;/a&gt;",<br>  "in_reply_to_screen_name": null,<br>  "in_reply_to_status_id": null<br>}</code></pre>
+            <pre class="small"><code> {<br>  "coordinates": null,<br>  "favorited": false,<br>  "created_at": "Wed Sep 05 00:37:15 +0000 2012",<br>  "truncated": false,<br>  "id_str": "243145735212777472",<br>  "entities": {<br>    "urls": [<br>    ],<br>    "hashtags": [<br>      {<br>        "text": "peterfalk",<br>        "indices": [<br>          35,<br>          45<br>        ]<br>      }<br>    ],<br>    "user_mentions": [<br><br>    ]<br>  },<br>  "in_reply_to_user_id_str": null,<br>  "text": "Maybe he'll finally find his keys. #peterfalk",<br>  "contributors": null,<br>  "retweet_count": 0,<br>  "id": 243145735212777472,<br>  "in_reply_to_status_id_str": null,<br>  "geo": null,<br>  "retweeted": false,<br>  "in_reply_to_user_id": null,<br>  "place": null,<br>  "user": {<br>    "name": "Jason Costa",<br>    "profile_sidebar_border_color": "86A4A6",<br>    "profile_sidebar_fill_color": "A0C5C7",<br>    "profile_background_tile": false,<br>    "profile_image_url": "http://a0.twimg.com/profile_images/1751674923/new_york_beard_normal.jpg",<br>    "created_at": "Wed May 28 00:20:15 +0000 2008",<br>    "location": "",<br>    "is_translator": true,<br>    "follow_request_sent": false,<br>    "id_str": "14927800",<br>    "profile_link_color": "FF3300",<br>    "entities": {<br>      "url": {<br>        "urls": [<br>          {<br>            "expanded_url": "http://www.jason-costa.blogspot.com/",<br>            "url": "http://t.co/YCA3ZKY",<br>            "indices": [<br>              0,<br>              19<br>            ],<br>            "display_url": "jason-costa.blogspot.com"<br>          }<br>        ]<br>      },<br>      "description": {<br>        "urls": [<br><br>        ]<br>      }<br>    },<br>    "default_profile": false,<br>    "contributors_enabled": false,<br>    "url": "http://t.co/YCA3ZKY",<br>    "favourites_count": 883,<br>    "utc_offset": -28800,<br>    "id": 14927800,<br>    "profile_image_url_https": "https://si0.twimg.com/profile_images/1751674923/new_york_beard_normal.jpg",<br>    "profile_use_background_image": true,<br>    "listed_count": 150,<br>    "profile_text_color": "333333",<br>    "protected": false,<br>    "lang": "en",<br>    "followers_count": 8760,<br>    "time_zone": "Pacific Time (US &amp; Canada)",<br>    "profile_background_image_url_https": "https://si0.twimg.com/images/themes/theme6/bg.gif",<br>    "verified": false,<br>    "profile_background_color": "709397",<br>    "notifications": false,<br>    "description": "Platform at Twitter",<br>    "geo_enabled": true,<br>    "statuses_count": 5532,<br>    "default_profile_image": false,<br>    "friends_count": 166,<br>    "profile_background_image_url": "http://a0.twimg.com/images/themes/theme6/bg.gif",<br>    "show_all_inline_media": true,<br>    "screen_name": "jasoncosta",<br>    "following": false<br>  },<br>  "source": "&lt;a href=\"http://jason-costa.blogspot.com\" rel=\"nofollow\"&gt;My Shiny App&lt;/a&gt;",<br>  "in_reply_to_screen_name": null,<br>  "in_reply_to_status_id": null<br>}</code></pre>
         </section>
         <section>
             a single tweet can potentially be<br>
-            represented in ~72 dimensions
+            represented in ~72 dimensions,<br>
+            often themselves N-dimensional
         </section>
 
         <section>
@@ -466,6 +470,19 @@
             to represent the parameters that "went missing" during the projection
         </section>
 
+
+        <section>
+            <img src="img/space/hsl_palette.jpg" class="stretch"><br>
+            a color palette is a 2D projection of a 3D/4D object<br>
+            here, the spectrum represents the "missing data"
+        </section>
+
+        <section>
+            <img src="img/space/depthbuffer.jpg" class="stretch"><br>
+            in a 2D projection of a 3D mesh, we lose the <i>depth</i> data<br>
+            we use a depth buffer to represent the "missing data"
+        </section>
+
         <section>
             <img src="img/space/TSNE.png" class="stretch"><br>
             the t-SNE algorithm reduces data dimensionality<br>
@@ -606,13 +623,13 @@ for( i = 0; i < 2000; i++ ){
     //iterate over all points
     points.forEach( function( p, id ){
 
-        //move to current position
+        //move the pen to the current position
         ctx.moveTo( p[0], p[1] );
 
         //updates angle
         angles[id] += ( Math.random() - .5 ) * RAD * speeds[id];
 
-        //updates poistion
+        //updates the point's position
         p[0] += Math.sin( angles[id] );
         p[1] += Math.cos( angles[id] );
 
