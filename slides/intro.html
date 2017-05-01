@@ -548,8 +548,6 @@
             data space design
         </section>
 
-
-
         <section>
             <h3>grid / frame distribution</h3>
         </section>
@@ -687,14 +685,6 @@ for( angle = 0; angle < Math.PI * 2 * turns; angle += step / 4 ){
 }</mark></code></pre>
         </section>
 
-        <section>
-            <h3>extension to 3D space</h3>
-            <ul>
-                <li>box, extruded frame</li>
-                <li>torus, sphere</li>
-                <li>regular polyhedron</li>
-            </ul>
-        </section>
 
 
         <section>
@@ -749,14 +739,17 @@ function reset() {
 }</mark></code></pre>
         </section>
 
-
-
-
-
-
+        <section>
+            <h3>extension to 3D space</h3>
+            <ul>
+                <li>box, extruded frame</li>
+                <li>torus, sphere</li>
+                <li>regular polyhedron</li>
+            </ul>
+        </section>
 
         <section>
-            <h3>grammar</h3>
+            <h3>rule-based systems & grammar</h3>
             series of rules that defines all<br>
             valid sentences of a language
         </section>
@@ -815,12 +808,6 @@ n=4: A B A A B   A B A   (A→AB), (B→A), (A→AB), (A→AB), (B→A)</code></
 
         <section>
             <iframe src="../code/l_system/index.html" class="stretch"></iframe>
-        </section>
-
-        <section>
-            <p>this is the essence of procedural generation:</p>
-            describing the rules of production rather<br>
-            than describing the objects themeselves
         </section>
 
         <section>
@@ -973,6 +960,70 @@ var E = new Edge( A, B );
 var graph = new Graph( [ A, B ], [ E ] );</mark></code></pre>
         </section>
 
+        <section>
+            <p>this is the essence of procedural generation:</p>
+            describing the rules of production rather<br>
+            than describing the objects themeselves
+        </section>
+
+    </section>
+
+
+    <section>
+
+        <section>
+            <h3>further considerations</h3>
+        </section>
+
+        <section>
+
+            <h3>context free grammar</h3>
+            <i>recursively</i> applies <i>production rules</i> and stops when the <i>axiom</i> only contains terminal symbols (primitives)
+
+        </section>
+
+        <section data-background-image="img/process/structure_synth0.png">
+            <h3><a href="http://structuresynth.sourceforge.net/">structuresynth</a></h3>
+            <pre class="small"><code>#define _col0 #F00
+#define _col1 #FF0
+#define _inc 0.1
+40 * {   y 0.1 ry 9 rz -2 s 1.01 1.01 1.01 color _col0  }column
+rule column w 0.5{
+    { y 0.5 ry 18   blend _col1 _inc     }box
+}
+rule column w 0.2{
+    { x -0.25 z -0.25 y 0.5 s 0.8  blend _col1 _inc     } box
+}
+rule column w 0.2{
+    20 * { rx 1 ry 1.5 rz 3 s 0.75 0.95 1.10  blend _col1 _inc }box
+}</code></pre>
+        </section>
+
+        <section data-background-image="img/process/structure_synth1.png">
+        </section>
+
+        <section data-background-image="img/process/structure_synth2.png">
+        </section>
+
+        <section data-background-image="img/process/structure_synth3.png">
+        </section>
+
+        <section>
+            <h3>parametrisation & expressiveness</h3>
+            drawing an ant
+        </section>
+
+        <section data-background-image="img/data/ant/3D.jpg">
+            <a href="http://jabjork.cgsociety.org/art/ant-3ds-atta-max-laevigata-zbrush-photoshop-realistic-3d-1154254">ANT (Atta laevigata) by javier porcel</a>
+        </section>
+
+        <section>
+            <img src="img/data/ant/step4.png">
+            <img src="img/data/ant/step3.png">
+            <img src="img/data/ant/step2.png">
+            <img src="img/data/ant/step1.png">
+            depending on the context those are equally valid representations of an ant, use relevant parameters
+        </section>
 
 
         <section>
@@ -993,7 +1044,6 @@ var graph = new Graph( [ A, B ], [ E ] );</mark></code></pre>
     return lerp( norm( t, a0, b0 ), a1, b1 );
 }</code></pre>
         </section>
-
 
         <section>
             <h3>distance</h3>
@@ -1025,62 +1075,7 @@ z = cos( theta ) * radius;</code></pre>
         </section>
 
 
-            <section>
 
-                <h3>context free grammar</h3>
-                <i>recursively</i> applies <i>production rules</i> and stops when the <i>axiom</i> only contains terminal symbols (primitives)
-
-            </section>
-
-            <section data-background-image="img/process/structure_synth0.png">
-                <h3><a href="http://structuresynth.sourceforge.net/">structuresynth</a></h3>
-                <pre class="small"><code>#define _col0 #F00
-#define _col1 #FF0
-#define _inc 0.1
-40 * {   y 0.1 ry 9 rz -2 s 1.01 1.01 1.01 color _col0  }column
-rule column w 0.5{
-    { y 0.5 ry 18   blend _col1 _inc     }box
-}
-rule column w 0.2{
-    { x -0.25 z -0.25 y 0.5 s 0.8  blend _col1 _inc     } box
-}
-rule column w 0.2{
-    20 * { rx 1 ry 1.5 rz 3 s 0.75 0.95 1.10  blend _col1 _inc }box
-}</code></pre>
-            </section>
-
-            <section data-background-image="img/process/structure_synth1.png">
-            </section>
-
-            <section data-background-image="img/process/structure_synth2.png">
-            </section>
-
-            <section data-background-image="img/process/structure_synth3.png">
-            </section>
-
-
-
-    </section>
-
-
-    <section>
-
-        <section>
-            <h3>parametrisation & expressiveness</h3>
-            drawing an ant
-        </section>
-
-        <section data-background-image="img/data/ant/3D.jpg">
-            <a href="http://jabjork.cgsociety.org/art/ant-3ds-atta-max-laevigata-zbrush-photoshop-realistic-3d-1154254">ANT (Atta laevigata) by javier porcel</a>
-        </section>
-
-        <section>
-            <img src="img/data/ant/step4.png">
-            <img src="img/data/ant/step3.png">
-            <img src="img/data/ant/step2.png">
-            <img src="img/data/ant/step1.png">
-            depending on the context those are equally valid representations of an ant, use relevant parameters
-        </section>
 
     </section>
 
