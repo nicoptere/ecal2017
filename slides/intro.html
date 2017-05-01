@@ -2,24 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>generating things with code</title>
+    <title>generating things with code - ECAL 2017</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-
     <!--<link rel="stylesheet" href="css/print/pdf.css">-->
+
     <link rel="stylesheet" href="css/reveal.css">
     <link rel="stylesheet" href="css/theme/white.css" id="theme">
     <style type="text/css" media="screen">
-        .slides section.has-dark-background,
-        .slides section.has-dark-background h2 {
-            color: #fff;
-        }
-        .slides section.has-light-background,
-        .slides section.has-light-background h2 {
-            color: #222;
-        }
-        .pdf .small, .pdf .small li, .pdf .small a, .pdf .small code,
+        /*.pdf .small, .pdf .small li, .pdf .small a, .pdf .small code,*/
         .small, .small li, .small a, .small code {
             font-size: .5em;
             line-height: 1.25em;
@@ -207,11 +199,11 @@
 
         <section>
 
-            <h3>continuous ⇨ discrete</h3>
-            time ⇨ interval<br>
-            light ⇨ color palette<br>
-            reaction ⇨ process<br>
-            phenomenon ⇨ simulation<br>
+            <h3>continuous => discrete</h3>
+            time => interval<br>
+            light => color palette<br>
+            reaction => process<br>
+            phenomenon => simulation<br>
 
         </section>
 
@@ -540,7 +532,7 @@
 
     </section>
 
-    <!--process-->
+    <!--moveTurtle-->
     <section>
 
         <section>
@@ -549,7 +541,12 @@
         </section>
 
         <section>
-            <h3>grid / frame distribution</h3>
+            <h3>translation / rotation / scale</h3>
+            the basic transformations, let us <br>
+            perform distributions in space
+        </section>
+        <section>
+            <h3>grid / frame</h3>
         </section>
 
         <section data-background-image="img/process/grid.png">
@@ -588,7 +585,7 @@ for( i = 0; i <= w; i += cellSize ){
         </section>
 
         <section>
-            <h3>polar distribution</h3>
+            <h3>circle / disc</h3>
         </section>
 
         <section data-background-image="img/process/circular.png">
@@ -636,7 +633,7 @@ for( angle = 0; angle < Math.PI * 2 * turns; angle += step / 4 ){
         </section>
 
         <section>
-            <h3>triangular distribution</h3>
+            <h3>triangles</h3>
         </section>
 
         <section data-background-image="img/process/triangular.png">
@@ -685,13 +682,11 @@ for( angle = 0; angle < Math.PI * 2 * turns; angle += step / 4 ){
 }</mark></code></pre>
         </section>
 
-
-
         <section>
             <h3>fields</h3>
-            assign a value at given locations in space
+            assign a value at given<br>
+            locations in space
         </section>
-
         <section data-background-image="img/process/vector_field.png">
             <pre class="small stretch"><code><mark>var HPI = Math.PI / 2;
 function angle(a,b){
@@ -739,23 +734,162 @@ function reset() {
 }</mark></code></pre>
         </section>
 
+        <!--rotation-->
         <section>
-            <h3>transforms and symmetries</h3>
-            translate, rotate, project, reflect, glide<br>
-            3 tiling types : poitn sym, frieze, paving
+            <h3>point symmetry</h3>
         </section>
+        <section data-background-image="img/process/point_symmetry.png">
+            <pre class="small stretch"><code><mark>function rotate(p, lattice, angle){
+    var a = getAngle(lattice, p) + angle;
+    var d = getDistance(lattice, p);
+    var pp = new Point();
+    pp.x = lattice.x + Math.cos(a) * d;
+    pp.y = lattice.y + Math.sin(a) * d;
+    return pp;
+}
+
+//random walk:
+// make a point move randomly X times on X / Y
+// store each position in an array
+var count = 64;
+var steplength = 20;
+var p = new Point();
+var points = [];
+for( var i = 0; i < count; i++ ){
+    p.x += steplength;
+    p.y += ( Math.random() - .5 ) * steplength;
+    //p.clone() return a copy of the point
+    points.push( p.clone() );
+}
+
+//performs a series of rotations around a point (center)
+var center = new Point();
+var rotations = 64;
+var angleStep = Math.PI * 2 / rotations;
+var tmp = new Point();
+for( i = 0; i < rotations; i++ ){
+    var rotated = [];
+    points.forEach( function( p ){
+        if( i == 0 )circle(p.x,p.y, 2 );
+        tmp = rotate( p, center, angleStep * i );
+        rotated.push( tmp );
+    });
+    renderLine( rotated );
+}</mark></code></pre>
+        </section>
+
+        <!--projection-->
+        <section>
+            <h3>projection</h3>
+        </section>
+        <section data-background-image="img/process/projection.png">
+            <pre class="small stretch"><code><mark>function project(p, a, b, asSegment) {
+    var dx = b.x - a.x;
+    var dy = b.y - a.y;
+    if (asSegment && dx == 0 && dy == 0) return a;
+    var t = ( ( p.x - a.x ) * dx + ( p.y - a.y ) * dy) / ( dx * dx + dy * dy );
+    if (asSegment && t < 0) return a;
+    if (asSegment && t > 1) return b;
+    return new Point(a.x + t * dx, a.y + t * dy);
+}
+var steplength = 30;
+var p = new Point(0, h/2);
+var points = [];
+for( var i = 0; i <= w; i+=steplength ){
+    p.x = i;
+    p.y += ( Math.random() - .5 ) * steplength;
+    circle( p.x, p.y, 2 );
+    points.push( p.clone() );
+}
+renderLine( points );
+
+//performs a series of projections onto an axis
+// define by the start & end points
+var start   = new Point( 0, h - h / 4 );
+var end     = new Point( w, h - h / 4 );
+points.forEach( function( p ){
+    var tmp = project( p, start, end );
+    line(p,tmp);
+});
+line( start, end );
+
+//performs a series of projections onto an axis
+// define by the start & end points
+start = new Point( 0, 0 );
+end = new Point( w, h );
+points.forEach( function( p ){
+    var tmp = project( p, start, end );
+    line(p,tmp);
+});
+line( start, end );</mark></code></pre>
+        </section>
+
+        <!--reflection-->
+        <section>
+            <h3>reflection</h3>
+        </section>
+        <section data-background-image="img/process/reflection.png">
+            <pre class="small stretch"><code><mark>function reflect(p, a, b) {
+    var pp = project(p, a, b);
+    return new Point(p.x + ( pp.x - p.x ) * 2, p.y + ( pp.y - p.y ) * 2);
+}
+
+var radius = h/3;
+var step = Math.PI * 2 / 64;
+var center = new Point(w/2, h/2);
+var points = [];
+//distributes points on a quarter of a circle
+for (var i = 0; i < Math.PI / 2 + step; i += step ) {
+    var p = new Point(
+        center.x + Math.cos( i ) * radius,
+        center.y + Math.sin( i ) * radius
+    );
+    points.push(p.clone());
+}
+
+//vertical symmetry
+var start   = new Point( 0, h/2 );
+var end     = new Point( w, h/2 );
+points.forEach(function (p) {
+    var tmp = reflect( p, start, end);
+    line(p, tmp);
+});
+
+//horizontal symmetry
+start   = new Point( w/2, 0 );
+end     = new Point( w/2, h );
+points.forEach(function (p) {
+    var tmp = reflect( p, start, end);
+    line(p, tmp);
+});
+
+//diagonal symmetry
+start   = new Point( w/2-radius, h/2+radius );
+end     = new Point( w/2+radius, h/2-radius );
+points.forEach(function (p) {
+    var tmp = reflect( p, start, end);
+    line(p, tmp);
+});</mark></code></pre>
+        </section>
+
+        <!--<section data-background-image="">-->
+            <!--<pre class="small stretch"><code><mark></mark></code></pre>-->
+        <!--</section>-->
 
         <section>
             <h3>extension to 3D space</h3>
-            <ul>
-                <li>box, extruded frame</li>
-                <li>torus, sphere</li>
-                <li>regular polyhedron</li>
-            </ul>
+            grid, frame => box, extruded frame<br>
+            circle, disc => torus, sphere<br>
+            triangles => regular polyhedron<br>
+            fields are N-Dimensional<br>
         </section>
 
         <section>
-            <h3>rule-based systems & grammar</h3>
+            <h3>rule-based systems</h3>
+        </section>
+
+        <section>
+            <h3>grammar</h3>
             series of rules that defines all<br>
             valid sentences of a language
         </section>
@@ -790,9 +924,8 @@ function reset() {
 
         <section>
             <h3>L-system</h3>
-            variation on formal grammar used to model<br>
-            plants' growth, it introduces the concepts of <br>
-            <i>rewriting, iteration, trees & recursion</i>
+            variation on formal grammar<br>
+            used to model plants' growth
         </section>
 
         <section>
@@ -816,13 +949,20 @@ n=4: A B A A B   A B A   (A→AB), (B→A), (A→AB), (A→AB), (B→A)</code></
             <iframe src="../code/l_system/index.html" class="stretch"></iframe>
         </section>
 
+
+        <section>
+            <h3>L-system</h3>
+            L-systems introduce the concepts of <br>
+            <i>iteration, recursion, trees & graph</i>
+        </section>
+
+
+        <!--iteration-->
         <section>
             <h3>iteration</h3>
         </section>
-
         <section data-background-image="img/process/iteration.png">
             <pre class="small stretch"><code><mark>var RAD = Math.PI / 180;
-
 //stores some vairables
 var points = [];
 var angles = [];
@@ -830,7 +970,7 @@ var speeds = [];
 for( var i = 0; i < 20; i++ ){
 
     //point position
-    points.push( [w/2, h/2] );
+    points.push( new Point(w/2, h/2) );
     //starting angle
     angles.push( Math.random() * Math.PI * 2 );
     //rotation speed
@@ -846,33 +986,33 @@ for( i = 0; i < 2000; i++ ){
     points.forEach( function( p, id ){
 
         //move the pen to the current position
-        ctx.moveTo( p[0], p[1] );
+        ctx.moveTo( p.x, p.y );
 
         //updates angle
         angles[id] += ( Math.random() - .5 ) * RAD * speeds[id];
 
         //updates the point's position
-        p[0] += Math.sin( angles[id] );
-        p[1] += Math.cos( angles[id] );
+        p.x += Math.sin( angles[id] );
+        p.y += Math.cos( angles[id] );
 
         //draws line to new position
-        ctx.lineTo( p[0], p[1] );
+        ctx.lineTo( p.x, p.y );
 
     });
 }
 ctx.stroke();</mark></code></pre>
         </section>
 
+        <!--recursion-->
         <section>
             <h3>recursion</h3>
         </section>
-
         <section data-background-image="img/process/sierpinski.png">
             <pre class="small stretch"><code><mark>function draw(p0, p1, p2) {
     ctx.beginPath();
-    ctx.moveTo(p0[0], p0[1]);
-    ctx.lineTo(p1[0], p1[1]);
-    ctx.lineTo(p2[0], p2[1]);
+    ctx.moveTo(p0.x, p0.y);
+    ctx.lineTo(p1.x, p1.y);
+    ctx.lineTo(p2.x, p2.y);
     ctx.closePath();
     ctx.stroke();
 }
@@ -888,9 +1028,9 @@ function sierpinski(p0, p1, p2, count ) {
         count--;
 
         //find the edges' centers
-        var a = [ ( p0[0] + p1[0] ) / 2, (p0[1] + p1[1]) / 2 ];
-        var b = [ ( p1[0] + p2[0] ) / 2, (p1[1] + p2[1]) / 2 ];
-        var c = [ ( p2[0] + p0[0] ) / 2, (p2[1] + p0[1]) / 2 ];
+        var a = [ ( p0.x + p1.x ) / 2, (p0.y + p1.y) / 2 ];
+        var b = [ ( p1.x + p2.x ) / 2, (p1.y + p2.y) / 2 ];
+        var c = [ ( p2.x + p0.x ) / 2, (p2.y + p0.y) / 2 ];
 
         //calls the method on the new triangles
         sierpinski( p0, a, c, count );
@@ -902,10 +1042,10 @@ sierpinski( points[0], points[1], points[2], 6 );</mark>
 </code></pre>
         </section>
 
+        <!--tree-->
         <section>
             <h3>recursive tree</h3>
         </section>
-
         <section data-background-image="img/process/tree.png">
             <pre class="small stretch"><code><mark>function branch(length, angle) {
 
@@ -938,10 +1078,10 @@ ctx.translate(w/2,h/2 + 300);
 branch( 200, Math.PI / 180 * 30 );</mark></code></pre>
         </section>
 
+        <!--graph-->
         <section>
             <h3>graph</h3>
         </section>
-
         <section data-background-image="img/process/mst.png">
             <pre class="small stretch"><code><mark>var Vertex = function( data ){ /*store the data*/ }
 
@@ -969,11 +1109,10 @@ var graph = new Graph( [ A, B ], [ E ] );</mark></code></pre>
         <section>
             <p>this is the essence of procedural generation:</p>
             describing the rules of production rather<br>
-            than describing the objects themeselves
+            than describing the objects themselves
         </section>
 
     </section>
-
 
     <section>
 
@@ -1031,6 +1170,33 @@ rule column w 0.2{
             depending on the context those are equally valid representations of an ant, use relevant parameters
         </section>
 
+        <section>
+            <h3>random vs pseudo-random</h3>
+            a <i>random()</i> methods create sequences that are - by definition - hard to reproduce.
+            prefer a Peudo Random Number Generator (PRNG) that produces a seemingly
+            random series of numbers
+        </section>
+
+
+        <section>
+            <h3>random vs noise</h3>
+            random values are often "too random" (discontinuous). you can use a noise to soften the variations
+        </section>
+        <section>
+            <pre><code>function noise (x, y){
+    var OCTAVES = 6;
+    var value = 0;
+    var amplitude = 0.5;
+    var frequency = 0;
+    for (var i = 0; i < OCTAVES; i++) {
+        value += amplitude * noise(st);
+        st *= 2.;
+        amplitud *= .5;
+    }
+    return value;
+}
+            </code></pre>
+        </section>
 
         <section>
             <h3>some useful methods</h3>

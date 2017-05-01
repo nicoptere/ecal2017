@@ -63,7 +63,7 @@ function subdivide( poly, offset, jitter ){
 
 
 // for( i = 0; i < 1; i++ ) {
-    // poly = subdivide( poly, 50 * PRNG.random(), true );
+    // poly = subdivide( poly, 50 * PRNG.pseudoRandom(), true );
     // ctx.globalAlpha = .2;
     // renderPoly( poly );
 // }
@@ -119,9 +119,9 @@ ctx.globalAlpha = 1;
 ctx.drawImage( temp.canvas, 0,0 );
 for( i = 0; i < 500; i++ ){
 
-    // ctx.fillStyle = "hsl( " + parseInt( PRNG.random() * 360 ) +', 100%, 50% )';
+    // ctx.fillStyle = "hsl( " + parseInt( PRNG.pseudoRandom() * 360 ) +', 100%, 50% )';
     var v = parseInt( PRNG.random() * 0xFF );
-    // ctx.globalAlpha = PRNG.random();
+    // ctx.globalAlpha = PRNG.pseudoRandom();
     ctx.fillStyle = 'rgb('+v+','+v+','+v+')';
     ctx.beginPath();
     ctx.arc(

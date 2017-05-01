@@ -5,7 +5,7 @@ var Turtle = function( x, y, angle ){
 };
 Turtle.prototype = {
     clone : function(){
-        return new Turtle( this.x, this.y );
+        return new Turtle( this.x, this.y, this.angle );
     }
 };
 
@@ -22,20 +22,25 @@ var Lsystem = function(axiom, rule, length, angle ) {
 
 Lsystem.prototype = {
 
-    process : function( ctx, char, turtle ){
+    moveTurtle:function( ctx, char, turtle ){
+
+        //move forward
         if (char == 'f'){
             turtle.x += Math.cos( turtle.angle ) * this.length;
             turtle.y += Math.sin( turtle.angle ) * this.length;
             ctx.lineTo( turtle.x, turtle.y );
         }
-        else if (char == '+')
-        {
+
+        //rotate right
+        if (char == '+'){
             turtle.angle += this.angle;
         }
-        else if (char == '-')
-        {
+
+        //rotate left
+        if (char == '-'){
             turtle.angle -= this.angle;
         }
+
     },
 
     render : function( ctx ){
@@ -46,15 +51,14 @@ Lsystem.prototype = {
         ctx.save();
         ctx.translate( ctx.canvas.width / 2, ctx.canvas.height / 2 );
         ctx.beginPath();
+        ctx.moveTo( turtle.x, turtle.y );
 
         for ( var i = 1; i < this.production.length; i++){
 
             var char = this.production.charAt( i ).toLowerCase();
 
-            if ( char == 'f' || char == '+' || char == '-' ){
-                this.process( ctx, char, turtle );
-            }
 
+            //scans a branch
             if ( char == '[' ){
 
                 if ( this.production.substr( i+1, this.production.length ).lastIndexOf( ']' ) == -1 ) continue;
@@ -64,9 +68,10 @@ Lsystem.prototype = {
                 ctx.save();
                 ctx.beginPath();
                 ctx.moveTo( tmp.x, tmp.y, 2, 0, Math.PI * 2 );
+
                 while ( char != ']'){
                     char = this.production.charAt( i++ );
-                    this.process( ctx, char, tmp );
+                    this.moveTurtle( ctx, char, tmp );
                 }
                 ctx.stroke();
                 ctx.restore();
@@ -75,6 +80,9 @@ Lsystem.prototype = {
                 ctx.arc( turtle.x, turtle.y, 2, 0, Math.PI * 2 );
                 ctx.moveTo( turtle.x, turtle.y );
 
+            }else{
+
+                this.moveTurtle( ctx, char, turtle );
             }
         }
         ctx.stroke();
@@ -82,12 +90,12 @@ Lsystem.prototype = {
     },
 
     compute : function( gens ){
+
         this.production = this.axiom.toLowerCase();
-        var prod;
+        var prod = '';
         var generations = 0;
         while ( generations < gens ){
 
-            prod = '';
             for ( var i = 0; i < this.production.length; i++ ){
 
                 if( this.production.charAt( i ) == 'f' ){

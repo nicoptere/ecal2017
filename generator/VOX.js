@@ -104,7 +104,7 @@ function VOX(X, Y, Z) {
 //create a new Voxel volume (maximum dimensions are 256x256x256 right now)
 var vox = new VOX(256, 256, 256);
 
-//just some random X/Y/Z walk
+//just some pseudoRandom X/Y/Z walk
 var x = 128;
 var y = 128;
 var z = 0;

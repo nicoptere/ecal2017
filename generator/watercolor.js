@@ -25,7 +25,7 @@ for( var i = 0; i <= Math.PI * 2 - step; i+=step ){
 // var PI2 = Math.PI * 2;
 // for( i = step; i <= Math.PI * 2; i+=step ){
 //     var p = new Point( w/2+Math.cos( da + PI2 - i )*r * .62, h/2+Math.sin( da + PI2 - i )*r*.62 );
-//     p.variance = PRNG.random();//i/Math.PI * 2;//
+//     p.variance = PRNG.pseudoRandom();//i/Math.PI * 2;//
 //     poly.push( p );
 // }
 
@@ -96,7 +96,7 @@ function subdivide( poly, offset, jitter ){
 
 
 // for( i = 0; i < 1; i++ ) {
-    // poly = subdivide( poly, 50 * PRNG.random(), true );
+    // poly = subdivide( poly, 50 * PRNG.pseudoRandom(), true );
     // ctx.globalAlpha = .2;
     // renderPoly( poly );
 // }

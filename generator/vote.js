@@ -23,7 +23,7 @@ for( var k =0; k< 100; k++ ){
         var i = votes;
         var accumulator = 0;
         while( i-- ){
-            accumulator += Math.random()>.5 ? 1 : 0;
+            accumulator += Math.pseudoRandom()>.5 ? 1 : 0;
         }
 
         if( accumulator / votes >= .5 ){

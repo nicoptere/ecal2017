@@ -60,7 +60,7 @@ function splitEdges( polygon, hasSplit ) {
                         tmpEdges.push( edges[k] );
                     }
                 }
-                //bail out and process the new edges
+                //bail out and moveTurtle the new edges
                 polygon.points = points;
                 polygon.edges = tmpEdges;
                 return splitEdges( polygon, true );

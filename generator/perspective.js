@@ -64,7 +64,7 @@ allLines.forEach(function( l ){
 
     ctx.globalAlpha = .1;
 
-    // ctx.strokeStyle = 'hsl( ' + parseInt(360 * Math.random() ) + ', 50%, 50% )';
+    // ctx.strokeStyle = 'hsl( ' + parseInt(360 * Math.pseudoRandom() ) + ', 50%, 50% )';
 
     var ip = lineIntersectLines( m1, m,allLines );
 

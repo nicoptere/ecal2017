@@ -46,18 +46,6 @@ function reset() {
 
 //utils
 //creates a 2D context
-
-window.addEventListener("message", receiveMessage, false);
-function receiveMessage(event) {
-    if( event.data == "slide:start" ){
-        window.addEventListener("mousedown", reset, false);
-        reset();
-    }
-    if( event.data == "slide:stop" ){
-        window.removeEventListener("mousedown", reset, false);
-        ctx.clearRect( 0,0,w,h );
-    }
-}
 var canvas, w, h, ctx;
 window.onload = function(){
     canvas = document.createElement( 'canvas' );

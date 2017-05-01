@@ -1,8 +1,3 @@
-function circle( x,y,r ){
-    ctx.beginPath();
-    ctx.arc( x, y, r, 0, Math.PI * 2 );
-    ctx.stroke();
-}
 function reset() {
 
     ctx.clearRect(0,0,w,h);
@@ -66,3 +61,8 @@ window.onload = function(){
     ctx = canvas.getContext("2d");
     reset();
 };
+function circle( x,y,r ){
+    ctx.beginPath();
+    ctx.arc( x, y, r, 0, Math.PI * 2 );
+    ctx.stroke();
+}

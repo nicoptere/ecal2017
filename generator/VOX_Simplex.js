@@ -104,7 +104,7 @@ function VOX(X, Y, Z) {
 //create a new Voxel volume (maximum dimensions are 256x256x256 right now)
 var vox = new VOX(256, 256, 256);
 /*
-//just some random X/Y/Z walk
+//just some pseudoRandom X/Y/Z walk
 var x = 128;
 var y = 128;
 var z = 0;
@@ -112,7 +112,7 @@ for (var i = 0; i < 12000; i++) {
     //this sets a voxel at the x/y/z coordinate with color palette index c
     //note that index 0 is an empty cell and will delete a voxel in case
     //there is one already at that position
-    var c = (Math.random()<0.01 ? 2 : 1);
+    var c = (Math.pseudoRandom()<0.01 ? 2 : 1);
     vox.setVoxel(x, y, z,c);
     vox.setVoxel(255-x, y, z,c);
     vox.setVoxel(x, 255-y, z,c);
@@ -129,7 +129,7 @@ for (var i = 0; i < 12000; i++) {
         [0, -1, 0],
         [0, 0, 1],
         [0, 0, -1]
-    ][(Math.random() * 10) | 0];
+    ][(Math.pseudoRandom() * 10) | 0];
     x = (x + step[0]) % 256;
     y = (y + step[1]) % 256;
     z = (z + step[2]);
@@ -151,7 +151,7 @@ for (var i = 0; i < 12000; i++) {
                 // if( n > -0.05 && n < 0.05 ){
 
 
-                    vox.setVoxel(i,j,k, (Math.random()>0.05 ? 2 : 1) );
+                    vox.setVoxel(i,j,k, (Math.pseudoRandom()>0.05 ? 2 : 1) );
 
                 }
             }
@@ -177,13 +177,13 @@ var canvas, w, h, ctx;
     ctx = canvas.getContext("2d");
 
 var c = [128,128,128];
-ctx.globalAlpha = 2 / 255;
+// ctx.globalAlpha = 2 / 255;
 for( var i = 0; i < 256; i++ ) {
     for (var j = 0; j < 256; j++) {
         for (var k = 0; k < 256; k++) {
             var s = .05;
             var n = Math.abs( simplex.noise3D( i * s, j * s, k * s) * 2 );
-            d = ( distance(c, [i, j, k]) + n ) / 128;
+            d = ( distance(c, [i-128, j-128, k-128]) + n ) / 128;
             if (d > .4 && d < 0.5) {
                 // ctx.fillRect(j, k, 1, 1);
                 vox.setVoxel(i-64,j-64,k-64, (Math.random()>0.05 ? 2 : 1) );
