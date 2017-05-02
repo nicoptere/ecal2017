@@ -91,6 +91,29 @@
 
         </section>
 
+        <section>
+            <h3>pcg upsides</h3>
+            <ul>
+                <li>the computer does the boring part</li>
+                <li>few paramaters give many variations</li>
+                <li>very good at serial content</li>
+                <li><i>emergent</i> behaviours can produce<br>
+                    surprising or unexpected results</li>
+            </ul>
+        </section>
+
+        <section>
+            <h3>pcg downsides</h3>
+            <ul>
+                <li>mathematical uniqueness is often not<br>
+                    enough to create significant differences</li>
+                <li>hard to maintain consistent variations<br>
+                    while using numerous variables</li>
+                <li>hard to assess "good" settings<br>
+                    human curation required</li>
+            </ul>
+        </section>
+
         <section data-background="img/examples/nomansky.png">
 
             <p><a href="https://www.nomanssky.com/">NO MAN'S SKY</a></p>
@@ -148,29 +171,6 @@
             </ul>
             <p>the particles move & disappear <i>procedurally</i></p>
             <p>this system can work for any 4D data set</p>
-        </section>
-
-        <section>
-            <h3>pcg upsides</h3>
-            <ul>
-                <li>the computer does the boring part</li>
-                <li>few paramaters give many variations</li>
-                <li>very good at serial content</li>
-                <li><i>emergent</i> behaviours can produce<br>
-                    surprising or unexpected results</li>
-            </ul>
-        </section>
-
-        <section>
-            <h3>pcg downsides</h3>
-            <ul>
-                <li>mathematical uniqueness is often not<br>
-                    enough to create significant differences</li>
-                <li>hard to maintain consistent variations<br>
-                    while using numerous variables</li>
-                <li>hard to assess "good" settings<br>
-                    human curation required</li>
-            </ul>
         </section>
 
     </section>
@@ -268,7 +268,7 @@
         </section>
 
         <section>
-            <h3>3 dimensional data</h3>
+            <h3>N-dimensional data</h3>
             combinatorics of unidimensional data<br>
             <ul>
                 <li>color: { R, G, B }</li>
@@ -278,11 +278,9 @@
         </section>
 
         <section>
-            <h3>N-dimensional data</h3>
-            complex <i>data structures</i><br>
             <ul>
                 <li>pixel, color: { X, Y, R, G, B }</li>
-                <li>pixel, color & alpha: { X, Y, A, R, G, B }</li>
+                <li>pixel, color & alpha: { X, Y, R, G, B, A }</li>
                 <li>stereo sound: { left, right, time, sampling rate }</li>
                 <li>video: pixel, color, sound, time</li>
                 <li>3D object: XYZ, indices, normals, colors, uvs...</li>
@@ -304,7 +302,7 @@
         </section>
 
         <section>
-            <h3>your mobile phone</h3>
+            <h3>a mobile phone</h3>
             <p>photos, videos, microphone & GPS positions<br>
                 as well as some "hidden" sensors:</p>
             <ul class="small">
@@ -326,7 +324,7 @@
         <section>
             <h3>Open Data</h3>
             <ul>
-                <li>statistical analysis</li>
+                <li>statistical analysis friendly</li>
                 <li>mostly "geo-social" data</li>
                 <li>often geolocated</li>
             </ul>
@@ -359,10 +357,9 @@
                 <li>noise, fractals, turbulence...</li>
                 <li>photogrammetry <br>
                     (build 3D models from 2D pictures)</li>
-                <li>GANs (AI)</li>
+                <li>CNNs & GANs (AI)</li>
             </ul>
         </section>
-
 
         <section>
             <p>there are  more and more data available and they become more and more complex (feature vectors)</p>
@@ -404,9 +401,8 @@
             <img src="img/space/3_spherical.png" class="stretch">
         </section>
 
-
         <section>
-            <h3>cartesian space</h3>
+            <h3>cartesian space 3D </h3>
             <img src="img/space/4_3Dcartesian.png" class="stretch">
         </section>
 
@@ -664,22 +660,23 @@ for( angle = 0; angle < Math.PI * 2 * turns; angle += step / 4 ){
             var cy = Math.round( j/my );
 
             //coordinates
-            var x = ( cx ) * L/2;
+            var x = ( cx ) * L / 2;
             var y = ( cy ) * H;
 
-            //triangular
-            if(( Math.abs( cx ) % 2 == 1 && Math.abs( cy ) % 2 == 0 )
-            || ( Math.abs( cx ) % 2 == 0 && Math.abs( cy ) % 2 == 1 ) ){
+            //triangular pattern
+            var mody = cy % 2;
+            if(( cx % 2 == 1 && cy % 2 == 0 )
+            || ( cx % 2 == 0 && cy % 2 == 1 )){
+                circle(x, y, 5);
+            } else {
+                circle(x, y, 1);
+            }
 
-                circle( x, y, 5 );
-
-                //hexagonal
-                if( Math.abs( Math.abs( cx ) % 4 ) == 0
-                ||  Math.abs( Math.abs( cy ) % 2 ) == 0 ){
-                    circle( x, y, 10 );
-                }
-            }else{
-                circle( x, y, 1 );
+            //hexagonal pattern
+            var modx = cx % 6;
+            if(( mody == 0 && ( modx == 1 || modx == 3 ) )
+            || ( mody == 1 && ( modx == 0 || modx == 4 ) ) ){
+                circle( x, y, 10 );
             }
         }
     }
@@ -958,7 +955,6 @@ n=4: A B A A B   A B A   (A→AB), (B→A), (A→AB), (A→AB), (B→A)</code></
         </section>
 
         <section>
-            <h3>L-system</h3>
             L-systems introduce the concepts of <br>
             <i>iteration, recursion, trees & graph</i>
         </section>
@@ -1120,43 +1116,6 @@ var graph = new Graph( [ A, B ], [ E ] );</mark></code></pre>
             than describing the objects themselves
         </section>
 
-        <!--context free grammar-->
-        <section>
-            <h3>context free grammar</h3>
-            <i>recursively</i> applies <i>production rules</i> and stops when the <i>axiom</i> only contains terminal symbols (primitives)
-        </section>
-
-        <!--structure synth-->
-        <section data-background-image="img/process/structure_synth0.png">
-            <h3><a href="http://structuresynth.sourceforge.net/">structuresynth</a></h3>
-            <pre class="small"><code>#define _col0 #F00
-#define _col1 #FF0
-#define _inc 0.1
-40 * {   y 0.1 ry 9 rz -2 s 1.01 1.01 1.01 color _col0  }column
-rule column w 0.5{
-    { y 0.5 ry 18   blend _col1 _inc     }box
-}
-rule column w 0.2{
-    { x -0.25 z -0.25 y 0.5 s 0.8  blend _col1 _inc     } box
-}
-rule column w 0.2{
-    20 * { rx 1 ry 1.5 rz 3 s 0.75 0.95 1.10  blend _col1 _inc }box
-}</code></pre>
-        </section>
-
-        <section data-background-image="img/process/structure_synth1.png">
-        </section>
-
-        <section data-background-image="img/process/structure_synth2.png">
-        </section>
-
-        <section data-background-image="img/process/structure_synth3.png">
-        </section>
-
-        <section>
-            <h3><a href="https://after12am.github.io/eisenscript-editor/">eisenscript live demo</a></h3>
-        </section>
-
     </section>
 
     <!--further-->
@@ -1260,6 +1219,39 @@ ctx.fillRect(w/2,0,w/2,h);</mark></code></pre>
             <h3>graphic tools</h3>
         </section>
 
+        <!--structure synth-->
+        <!--context free grammar-->
+        <section>
+            <h3>context free grammar</h3>
+            <i>recursively</i> applies <i>production rules</i> and stops when the <i>axiom</i> only contains terminal symbols (primitives)
+        </section>
+        <section data-background-image="img/process/structure_synth0.png">
+            <h3><a href="http://structuresynth.sourceforge.net/">structuresynth</a></h3>
+            <pre class="small"><code>#define _col0 #F00
+#define _col1 #FF0
+#define _inc 0.1
+40 * {   y 0.1 ry 9 rz -2 s 1.01 1.01 1.01 color _col0  }column
+rule column w 0.5{
+    { y 0.5 ry 18   blend _col1 _inc     }box
+}
+rule column w 0.2{
+    { x -0.25 z -0.25 y 0.5 s 0.8  blend _col1 _inc     } box
+}
+rule column w 0.2{
+    20 * { rx 1 ry 1.5 rz 3 s 0.75 0.95 1.10  blend _col1 _inc }box
+}</code></pre>
+        </section>
+        <section data-background-image="img/process/structure_synth1.png">
+        </section>
+        <section data-background-image="img/process/structure_synth2.png">
+        </section>
+        <section data-background-image="img/process/structure_synth3.png">
+        </section>
+        <section>
+            <h3><a href="https://after12am.github.io/eisenscript-editor/">eisenscript live demo</a></h3>
+        </section>
+
+        <!--magicavoxel-->
         <section data-background-image="img/extra/tools/magica_closeup.png"><h3><a href="https://ephtracy.github.io/">magicavoxel</a></h3></section>
         <section data-background-image="img/extra/tools/magica_sphere.png"></section>
         <section data-background-image="img/extra/tools/shadertoy.png">
@@ -1277,9 +1269,10 @@ ctx.fillRect(w/2,0,w/2,h);</mark></code></pre>
         </section>
 
         <section>
-            <h3>Generative Advesrsarial Networks</h3>
-            the future of your work<br>
-            still academic research papers with funny names:<br>
+            <h3>convolutional neural networks &</h3>
+            <h3>generative advesrsarial networks</h3>
+            it's the future but for now it's mostly<br>
+            academic papers with funny names:<br>
             <span class="small">
 
             <a href="http://3dgan.csail.mit.edu/">Learning a Probabilistic Latent Space of Object Shapes via 3D Generative-Adversarial Modeling</a><br>
@@ -1291,13 +1284,12 @@ ctx.fillRect(w/2,0,w/2,h);</mark></code></pre>
         </section>
 
         <section>
-            <h3>generative approaches IRL</h3>
+            <h3>generative design studios</h3>
             <a href="http://universaleverything.com/projects/screens-of-the-future/">universal everything</a><br>
             <a href="http://www.onformative.com/">onformative</a><br>
-            <a href="http://variable.io/">http://variable.io/</a><br>
+            <a href="http://variable.io/">variable.io</a><br>
             <a href="https://www.field.io/">field.io</a><br>
             <a href="http://waltzbinaire.com/">waltz binaire</a><br>
-            <a href="https://www.kuva.io/">kuva</a><br>
             <a href="http://nocomputer.be/">no computer</a><br>
         </section>
 
@@ -1369,8 +1361,8 @@ z = cos( theta ) * radius;</code></pre>
         return a;
     }
     var t = ( ( p.x - a.x ) * dx + ( p.y - a.y ) * dy) / ( dx * dx + dy * dy );
-    if (asSegment && t < 0) return null;
-    if (asSegment && t > 1) return null;
+    if (asSegment && t < 0) return a;
+    if (asSegment && t > 1) return b;
     return new Point(a.x + t * dx, a.y + t * dy);
 }</code></pre>
             <h3>reflect</h3>
@@ -1379,7 +1371,6 @@ z = cos( theta ) * radius;</code></pre>
     return new Point(p.x + ( pp.x - p.x ) * 2, p.y + ( pp.y - p.y ) * 2);
 }</code></pre>
         </section>
-
 
     </section>
 

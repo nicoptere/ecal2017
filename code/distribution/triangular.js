@@ -5,7 +5,6 @@ function reset(){
     var L = 2 * Math.sin( Math.PI / sides ); //side length
     var A = L / ( 2 * Math.tan( Math.PI / sides ) ); //apothem
     var H = ( 1 + A ); //radius + apothem
-
     var size = 50;
     L *= size;
     H *= size;
@@ -13,31 +12,32 @@ function reset(){
     var mx = 2 * Math.ceil( w / L );
     var my = Math.ceil( h / H );
 
-    for( var i = 0; i < w; i+= mx ){
+    for( var i = 0; i < w * 1.2; i+= mx ){
 
-        for( var j = 0; j <= h; j+= my ){
+        for( var j = 0; j <= h; j+= my ) {
 
             //cell indices
-            var cx = Math.round( i/mx );
-            var cy = Math.round( j/my );
+            var cx = Math.round(i / mx);
+            var cy = Math.round(j / my);
 
             //coordinates
-            var x = ( cx ) * L/2;
+            var x = ( cx ) * L / 2;
             var y = ( cy ) * H;
 
-            //triangular
-            if(( Math.abs( cx ) % 2 == 1 && Math.abs( cy ) % 2 == 0 )
-                || ( Math.abs( cx ) % 2 == 0 && Math.abs( cy ) % 2 == 1 ) ){
+            //triangular pattern
+            var mody = cy % 2;
+            if(( cx % 2 == 1 && cy % 2 == 0 )
+            || ( cx % 2 == 0 && cy % 2 == 1 )){
+                circle(x, y, 5);
+            } else {
+                circle(x, y, 1);
+            }
 
-                circle( x, y, 5 );
-
-                //hexagonal
-                if( Math.abs( Math.abs( cx ) % 4 ) == 0
-                    ||  Math.abs( Math.abs( cy ) % 2 ) == 0 ){
-                    circle( x, y, 10 );
-                }
-            }else{
-                circle( x, y, 1 );
+            //hexagonal pattern
+            var modx = cx % 6;
+            if(( mody == 0 && ( modx == 1 || modx == 3 ) )
+            || ( mody == 1 && ( modx == 0 || modx == 4 ) ) ){
+                circle( x, y, 10 );
             }
         }
     }
