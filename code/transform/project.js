@@ -5,8 +5,8 @@ function project(p, a, b, asSegment) {
         return a;
     }
     var t = ( ( p.x - a.x ) * dx + ( p.y - a.y ) * dy) / ( dx * dx + dy * dy );
-    if (asSegment && t < 0) return a;
-    if (asSegment && t > 1) return b;
+    if (asSegment && t < 0) return null;
+    if (asSegment && t > 1) return null;
     return new Point(a.x + t * dx, a.y + t * dy);
 }
 function reset() {
@@ -49,18 +49,18 @@ function reset() {
 
         var tmp = project( p, start, end );
         line(p,tmp);
-        newPositions.push( tmp.clone() );
     });
     line( start, end );
 
     // now projects the projected points onto a new line
-    start = new Point( w/4, 0 );
-    end = new Point( w-w/4, h );
+    start = new Point( w*.75, h/4 );
+    end = new Point( w*.95, h/3 );
     ctx.beginPath();
-    newPositions.forEach( function( p ){
+    points.forEach( function( p ){
 
-        var tmp = project( p, start, end );
-        line(p,tmp);
+        //use the asSegment flag to check if the projection lies onb the segment
+        var tmp = project( p, start, end, true );
+        if( tmp != null ) line(p,tmp);
 
     });
     line( start, end );
