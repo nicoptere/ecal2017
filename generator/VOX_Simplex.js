@@ -65,6 +65,7 @@ function VOX(X, Y, Z) {
         this.appendUInt32(data, this.X);
         this.appendUInt32(data, this.Y);
         this.appendUInt32(data, this.Z);
+
         this.appendString(data, "XYZI");
         this.appendUInt32(data, 4 + this.vcount * 4);
         this.appendUInt32(data, 0);
@@ -72,12 +73,22 @@ function VOX(X, Y, Z) {
         for (var key in this.voxels) {
             this.appendVoxel(data, key);
         }
+
         this.appendString(data, "RGBA");
-        this.appendUInt32(data, 0x400);
+        this.appendUInt32(data, 0x400);//1024
         this.appendUInt32(data, 0);
         for (var i = 0; i < 256; i++) {
             this.appendRGBA(data, this.palette[i]);
         }
+
+        this.appendString(data, "MATT");
+        this.appendUInt32(data, 0x400);//1024
+        this.appendUInt32(data, 0);
+        for (var i = 0; i < 256; i++) {
+            this.appendRGBA(data, this.palette[i]);
+        }
+
+
         this.saveByteArray([new Uint8Array(data)], filename)
         return
     }
@@ -167,31 +178,65 @@ function distance( a, b ){
     var dz = a[2]-b[2];
     return Math.sqrt( dx*dx + dy*dy + dz*dz );
 }
-//creates a 2D context
-var canvas, w, h, ctx;
 
-    canvas = document.createElement( 'canvas' );
-    document.body.appendChild( canvas );
-    w = canvas.width = window.innerWidth ;
-    h = canvas.height = window.innerHeight ;
-    ctx = canvas.getContext("2d");
 
-var c = [128,128,128];
+var list = [
+    0xFFe7fb57,
+    0xFFdef85f,
+    0xFFd5f567,
+    0xFFccf26f,
+    0xFFc3ef77,
+    0xFFbaec7f,
+    0xFFb1e987,
+    0xFFa8e590,
+    0xFF9fe298,
+    0xFF96dfa0,
+    0xFF8ddca8,
+    0xFF84d9b0,
+    0xFF7bd6b8,
+    0xFF72d3c0,
+];
+list = [
+0xFF393092,
+// 0xFF453c98,
+// 0xFF50489f,
+// 0xFF5c55a5,
+// 0xFF6861ac,
+// 0xFF736db2,
+// 0xFF7f79b8,
+// 0xFF8b85bf,
+0xFF9691c5,
+// 0xFFa29ecc,
+// 0xFFadaad2,
+// 0xFFb9b6d9,
+// 0xFFc5c2df,
+// 0xFFd0cee5,
+// 0xFFdcdaec,
+// 0xFFe8e7f2,
+// 0xFFf3f3f9,
+0xFFffffff
+];
+list.reverse();
+
+var c = [0,0,0];//128,128,128];
 // ctx.globalAlpha = 2 / 255;
 for( var i = 0; i < 256; i++ ) {
     for (var j = 0; j < 256; j++) {
         for (var k = 0; k < 256; k++) {
             var s = .05;
-            var n = Math.abs( simplex.noise3D( i * s, j * s, k * s) * 2 );
-            d = ( distance(c, [i-128, j-128, k-128]) + n ) / 128;
+            var n = Math.abs( simplex.noise3D( i * s, j * s, k * s) );
+            d = ( distance(c, [i-128, j-128, k-128]) + ( n * 48 ) ) / 128;
             if (d > .4 && d < 0.5) {
-                // ctx.fillRect(j, k, 1, 1);
-                vox.setVoxel(i-64,j-64,k-64, (Math.random()>0.05 ? 2 : 1) );
+                vox.setVoxel(i-64,j-64,k-64, ~~( map(n, 0, 1, 0,list.length ) + 1 ) );
             }
         }
     }
     console.log( i );
 }
+
+function lerp ( t, a, b ){ return a * (1-t) + b * t; }
+function norm( t, a, b ){return ( t - a ) / ( b - a );}
+function map( t, a0, b0, a1, b1 ){ return lerp( norm( t, a0, b0 ), a1, b1 );}
 
 
 
@@ -200,7 +245,16 @@ for( var i = 0; i < 256; i++ ) {
 // note that the palette values are offset by 1,
 // so setting palette[0] will change the color index #1
 // vox.palette[1] = 0xffff8000
-vox.palette[1] = 0xff000000;
+// vox.palette[0] = 0xff0066CC;
+// vox.palette[1] = 0xffFFFFFF;
+// vox.palette[0] = 0xFF1287de;
+// vox.palette[1] = 0xFF389ecd;
+// vox.palette[2] = 0xFF5fb6bc;
+// vox.palette[3] = 0xFF85cdab;
+
+list.forEach(function(c,i){
+    vox.palette[i] = c;
+});
 
 // whilst editing you should comment this line out, otherwise it will export files everytime you make a change
 vox.export('test.vox');

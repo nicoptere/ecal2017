@@ -77,21 +77,3 @@ function renderLine(points) {
     });
     ctx.stroke();
 }
-function drawGrid(w, h, cellSize) {
-
-    ctx.save();
-    //draws the grid
-    ctx.globalAlpha = .25;
-    ctx.beginPath();
-    for (i = 0; i <= w; i += cellSize) {
-        ctx.moveTo(i, 0);
-        ctx.lineTo(i, h);
-    }
-    for (j = 0; j <= h; j += cellSize) {
-        ctx.moveTo(0, j);
-        ctx.lineTo(w, j);
-    }
-    ctx.stroke();
-    ctx.restore();
-
-}

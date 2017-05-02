@@ -11,8 +11,7 @@
     <link rel="stylesheet" href="css/reveal.css">
     <link rel="stylesheet" href="css/theme/white.css" id="theme">
     <style type="text/css" media="screen">
-        /*.pdf .small, .pdf .small li, .pdf .small a, .pdf .small code,*/
-        .small, .small li, .small a, .small code {
+        .small, .small li, .small a, .small code, small p {
             font-size: .5em;
             line-height: 1.25em;
         }
@@ -30,29 +29,20 @@
 
     <div class="slides">
 
+    <!--intro-->
     <section>
         <h2>Generating things<br>with code</h2>
     </section>
 
     <section>
         <h4>Procedural Content Generation (PCG)</h4>
-        <p>generation is programmatic & often pseudo-random</p>
-        <p>design a <i>process</i> rather than an <i>object</i></p>
+        <p>programmatic generation of content<br>often using pseudo-random data</p>
+        <p>designing a <i>process</i> rather than an <i>object</i></p>
     </section>
 
     <section>
-        <h4>PCG are heavily is used in design, <br>
+        <h4>PCG are massively used in design, <br>
             games, art, vfx, architecture...</h4>
-    </section>
-
-    <section>
-        <h3>not important</h3>
-        <ul>
-            <li>coding platform</li>
-            <li>coding language</li>
-            <li>coding tools & toolchain</li>
-            <li>capture device &amp; data sources</li>
-        </ul>
     </section>
 
     <section>
@@ -62,6 +52,15 @@
             <li>space</li>
             <li>process</li>
         </ol>
+    </section>
+
+    <section>
+        <h3>not important</h3>
+        <ul>
+            <li>coding platform & language</li>
+            <li>coding tools & toolchain</li>
+            <li>capture device &amp; data sources</li>
+        </ul>
     </section>
 
     <!--examples-->
@@ -94,13 +93,13 @@
 
         <section data-background="img/examples/nomansky.png">
 
-            <p><a href="https://www.nomanssky.com/">no man's sky</a></p>
+            <p><a href="https://www.nomanssky.com/">NO MAN'S SKY</a></p>
 
         </section>
 
         <section>
 
-            <p><a href="https://www.nomanssky.com/">no man's sky</a></p>
+            <p><a href="https://www.nomanssky.com/">Hello Games - no man's sky</a></p>
             <p><strong>model</strong>: universe generator</p>
             <p><strong>simulation</strong>: update the model with game logic</p>
             <p><strong>exploration</strong>: move & interact with the model</p>
@@ -110,7 +109,7 @@
 
         <section data-background="img/examples/nervous.png">
 
-            <p><a href="http://n-e-r-v-o-u-s.com/index.php">nervous systems - KINEMATICS FOLD</a></p>
+            <p><a href="http://n-e-r-v-o-u-s.com/index.php">KINEMATICS FOLD</a></p>
 
         </section>
 
@@ -126,13 +125,13 @@
 
         <section data-background="img/examples/uss.png">
 
-            <p><a href="http://wearechopchop.com/%E2%80%9Cunnamed-soundsculpture%E2%80%9D/">unnamed sound sculpture</a></p>
+            <p><a href="http://wearechopchop.com/%E2%80%9Cunnamed-soundsculpture%E2%80%9D/">UNNAMED SOUNDSCULPTURE</a></p>
 
         </section>
 
         <section>
 
-            <p><a href="http://wearechopchop.com/%E2%80%9Cunnamed-soundsculpture%E2%80%9D/">unnamed sound sculpture</a></p>
+            <p><a href="http://wearechopchop.com/%E2%80%9Cunnamed-soundsculpture%E2%80%9D/">We Are Chopchop - unnamed soundsculpture</a></p>
             <p><strong>system</strong>: use particles to represent a 3D object</p>
             <p><strong>simulation</strong>: playback of a recorded sequence</p>
             <p><strong>exploration</strong>: move a virtual camera through space</p>
@@ -152,7 +151,7 @@
         </section>
 
         <section>
-            <h3>upsides</h3>
+            <h3>pcg upsides</h3>
             <ul>
                 <li>the computer does the boring part</li>
                 <li>few paramaters give many variations</li>
@@ -163,7 +162,7 @@
         </section>
 
         <section>
-            <h3>downsides</h3>
+            <h3>pcg downsides</h3>
             <ul>
                 <li>mathematical uniqueness is often not<br>
                     enough to create significant differences</li>
@@ -528,11 +527,16 @@
             <img src="img/space/moebius.png" class="stretch"><br>
         </section>
 
+        <section data-background-image="img/space/hyperbolic_knit.jpg">
+            <h3 style="color:#CCC">hyperbolic space</h3>
+            <a href="https://en.wikipedia.org/wiki/Daina_Taimina">Model of Hyperbolic Space.<br>by Daina Taimina, 2011.</a>
+        </section>
+
 
 
     </section>
 
-    <!--moveTurtle-->
+    <!--process-->
     <section>
 
         <section>
@@ -878,16 +882,20 @@ points.forEach(function (p) {
 
         <section>
             <h3>extension to 3D space</h3>
+            <i>just</i> add a third dimension<br>
             grid, frame => box, extruded frame<br>
             circle, disc => torus, sphere<br>
             triangles => regular polyhedron<br>
             fields are N-Dimensional<br>
         </section>
 
+
+        <!--rule based systems-->
         <section>
             <h3>rule-based systems</h3>
         </section>
 
+        <!--grammar-->
         <section>
             <h3>grammar</h3>
             series of rules that defines all<br>
@@ -921,7 +929,7 @@ points.forEach(function (p) {
             <img src="img/process/formal_grammar_test.png" class="stretch">
         </section>
 
-
+        <!--l system-->
         <section>
             <h3>L-system</h3>
             variation on formal grammar<br>
@@ -949,13 +957,13 @@ n=4: A B A A B   A B A   (A→AB), (B→A), (A→AB), (A→AB), (B→A)</code></
             <iframe src="../code/l_system/index.html" class="stretch"></iframe>
         </section>
 
-
         <section>
             <h3>L-system</h3>
             L-systems introduce the concepts of <br>
             <i>iteration, recursion, trees & graph</i>
         </section>
 
+        <!--new principlpes-->
 
         <!--iteration-->
         <section>
@@ -1112,21 +1120,13 @@ var graph = new Graph( [ A, B ], [ E ] );</mark></code></pre>
             than describing the objects themselves
         </section>
 
-    </section>
-
-    <section>
-
+        <!--context free grammar-->
         <section>
-            <h3>further considerations</h3>
-        </section>
-
-        <section>
-
             <h3>context free grammar</h3>
             <i>recursively</i> applies <i>production rules</i> and stops when the <i>axiom</i> only contains terminal symbols (primitives)
-
         </section>
 
+        <!--structure synth-->
         <section data-background-image="img/process/structure_synth0.png">
             <h3><a href="http://structuresynth.sourceforge.net/">structuresynth</a></h3>
             <pre class="small"><code>#define _col0 #F00
@@ -1154,52 +1154,168 @@ rule column w 0.2{
         </section>
 
         <section>
+            <h3><a href="https://after12am.github.io/eisenscript-editor/">eisenscript live demo</a></h3>
+        </section>
+
+    </section>
+
+    <!--further-->
+    <section>
+
+        <section>
+            <h3>further considerations</h3>
+        </section>
+
+        <section>
             <h3>parametrisation & expressiveness</h3>
             drawing an ant
         </section>
-
-        <section data-background-image="img/data/ant/3D.jpg">
+        <section data-background-image="img/extra/ant/3D.jpg">
+            <h3 style="color: #CCC">hyper-realistic 3D render</h3>
             <a href="http://jabjork.cgsociety.org/art/ant-3ds-atta-max-laevigata-zbrush-photoshop-realistic-3d-1154254">ANT (Atta laevigata) by javier porcel</a>
         </section>
-
         <section>
-            <img src="img/data/ant/step4.png">
-            <img src="img/data/ant/step3.png">
-            <img src="img/data/ant/step2.png">
-            <img src="img/data/ant/step1.png">
-            depending on the context those are equally valid representations of an ant, use relevant parameters
+            <img src="img/extra/ant/step3.png">
+            <img src="img/extra/ant/step1.png">
+            <img src="img/extra/ant/step0.png">
+            <br>
+            depending on the context those are equally valid representations of an ant. use relevant parameters
         </section>
 
+        <!--random-->
         <section>
             <h3>random vs pseudo-random</h3>
             a <i>random()</i> methods create sequences that are - by definition - hard to reproduce.
-            prefer a Peudo Random Number Generator (PRNG) that produces a seemingly
-            random series of numbers
+            prefer a Pseudo Random Number Generator (PRNG) that produces <i>seemingly</i> random series of numbers
+        </section>
+        <section data-background-image="img/extra/prng.png">
         </section>
 
-
+        <!--noise-->
         <section>
             <h3>random vs noise</h3>
             random values are often "too random" (discontinuous). you can use a noise to soften the variations
         </section>
-        <section>
-            <pre><code>function noise (x, y){
+        <section data-background-image="img/extra/noise.png">
+            <pre class="small stretch"><code><mark>
+function pseudoRandom(x, y) {
+    return ( ( Math.sin( x * 12.9898 + y * 78.233) ) * 43758.5453123 ) % 1;
+}
+
+function noise(x, y) {
+
+    //gets the integer part
+    var ix = parseInt(x);
+    var iy = parseInt(y);
+
+    // 2D cell corners
+    var a = pseudoRandom(ix,iy);
+    var b = pseudoRandom(ix+1, iy);
+    var c = pseudoRandom(ix, iy+1);
+    var d = pseudoRandom(ix+1, iy+1);
+
+    //gets the fractional part
+    var fx = (x % 1);
+    var fy = (y % 1);
+    var ux = fx * fx * (3.0 - 2.0 * fx);
+    var uy = fy * fy * (3.0 - 2.0 * fy);
+
+    //interpolate the 4 noises with fractional parts
+    return (a * (1-ux) + b * ux) + (c - a) * uy * (1.0 - ux) + (d - b) * ux * uy;
+
+}
+
+function FBM( x, y ){
     var OCTAVES = 6;
     var value = 0;
-    var amplitude = 0.5;
-    var frequency = 0;
+    var amplitude = .5;
     for (var i = 0; i < OCTAVES; i++) {
-        value += amplitude * noise(st);
-        st *= 2.;
-        amplitud *= .5;
+        value += amplitude * noise(x,y);
+        x *= 2.;
+        y *= 2.;
+        amplitude *= .5;
     }
     return value;
-}
-            </code></pre>
+}</mark></code></pre>
+        </section>
+
+        <!--trails, traces, feedback-->
+        <section>
+            <h3>trails & traces</h3>
+            preserve previously drawn frame<br>
+            cheap way of adding complexity
+        </section>
+        <section data-background-image="img/extra/trails.png">
+            <pre class="small stretch"><code><mark>//clear half the screen
+ctx.clearRect(0,0,w/2,h);
+
+//draw a translucent rect on top of the other half
+ctx.fillStyle = "#FFF";
+ctx.globalAlpha = .05;
+ctx.fillRect(w/2,0,w/2,h);</mark></code></pre>
+
         </section>
 
         <section>
-            <h3>some useful methods</h3>
+            <h3>graphic tools</h3>
+        </section>
+
+        <section data-background-image="img/extra/tools/magica_closeup.png"><h3><a href="https://ephtracy.github.io/">magicavoxel</a></h3></section>
+        <section data-background-image="img/extra/tools/magica_sphere.png"></section>
+        <section data-background-image="img/extra/tools/shadertoy.png">
+            <h3><a href="https://www.shadertoy.com/">shadertoy</a></h3>
+            shader magic tricks
+        </section>
+        <section data-background-image="img/extra/tools/houdini.jpg">
+            <h3><a href="https://www.sidefx.com/products/houdini-education/">houdini</a></h3>
+            <a href="http://www.entagma.com/">excellent series of tutorials</a>
+        </section>
+
+        <section data-background-image="img/extra/tools/blender.jpg">
+            <h3><a href="https://www.blender.org/">blender</a></h3>
+            <a href="https://wiki.blender.org/index.php/Doc:FR/2.4/Manual/Extensions/Python/Example">functional scripting example</a>
+        </section>
+
+        <section>
+            <h3>Generative Advesrsarial Networks</h3>
+            the future of your work<br>
+            still academic research papers with funny names:<br>
+            <span class="small">
+
+            <a href="http://3dgan.csail.mit.edu/">Learning a Probabilistic Latent Space of Object Shapes via 3D Generative-Adversarial Modeling</a><br>
+            <a href="https://github.com/Newmu/dcgan_code">Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks</a><br>
+            <a href="https://blog.openai.com/evolution-strategies/">Evolution Strategies as a Scalable Alternative to Reinforcement Learning</a>
+
+            </span>
+
+        </section>
+
+        <section>
+            <h3>generative approaches IRL</h3>
+            <a href="http://universaleverything.com/projects/screens-of-the-future/">universal everything</a><br>
+            <a href="http://www.onformative.com/">onformative</a><br>
+            <a href="http://variable.io/">http://variable.io/</a><br>
+            <a href="https://www.field.io/">field.io</a><br>
+            <a href="http://waltzbinaire.com/">waltz binaire</a><br>
+            <a href="https://www.kuva.io/">kuva</a><br>
+            <a href="http://nocomputer.be/">no computer</a><br>
+        </section>
+
+        <section>
+            <h3>twitter accounts</h3>
+            <p style="font-size: .75em">
+            <!--tylhobbs MacTuitui P_Malin ‏FogleBird ‏pissang1 ‏mystaticself ‏M_PF ‏Flexi23 ‏JoanieLemercier ‏inconvergent ‏WilliamChyr ‏mariuswatz ‏-->
+            <!--xorxor_hu ‏hyper_glu ‏AdrienMClaireB ‏laserberg ‏AtticusBones ‏_kzr ‏aiekick ‏wearekuva ‏ExUtumno generateme_blog ‏genekogan ‏wearenocomputer ‏-->
+            <!--_Nick_Taylor ‏cupe_cupe ‏eddietree ‏albertomoss ‏ariweinkle ‏hughskennedy ‏TatumCreative ‏akirodic ‏RavenKwok ‏patriciogv ‏cornusammonis ‏-->
+            <!--mflux ‏legomushroom ‏roland_huf ‏prideout ‏p01 ‏liabru ‏kenji_special ‏mattdesl ‏lennyjpg ‏dbtwr ‏gordonnl ‏kyndinfo ‏edankwan ‏evanbbb ‏-->
+            <!--novastructura ‏thespite ‏moebio ‏alteredq ‏marcinignac ‏BlurSpline ‏philogb ‏wblut ‏toxi ‏RezaAli ‏soulwire ‏oosmoxiecode ‏felixturner ‏marpi_ ‏-->
+            <!--subblue ‏grgrdvrt ‏quasimondo ‏-->
+            <a href="https://twitter.com/tylhobbs" target="_blank">tylhobbs</a> <a href="https://twitter.com/MacTuitui" target="_blank">MacTuitui</a> <a href="https://twitter.com/P_Malin" target="_blank">P_Malin</a> <a href="https://twitter.com/FogleBird" target="_blank">FogleBird</a> <a href="https://twitter.com/pissang1" target="_blank">pissang1</a> <a href="https://twitter.com/mystaticself" target="_blank">mystaticself</a> <a href="https://twitter.com/M_PF" target="_blank">M_PF</a> <a href="https://twitter.com/Flexi23" target="_blank">Flexi23</a> <a href="https://twitter.com/JoanieLemercier" target="_blank">JoanieLemercier</a> <a href="https://twitter.com/inconvergent" target="_blank">inconvergent</a> <a href="https://twitter.com/WilliamChyr" target="_blank">WilliamChyr</a> <a href="https://twitter.com/mariuswatz" target="_blank">mariuswatz</a> <a href="https://twitter.com/" target="_blank"></a> <a href="https://twitter.com/xorxor_hu" target="_blank">xorxor_hu</a> <a href="https://twitter.com/hyper_glu" target="_blank">hyper_glu</a> <a href="https://twitter.com/AdrienMClaireB" target="_blank">AdrienMClaireB</a> <a href="https://twitter.com/laserberg" target="_blank">laserberg</a> <a href="https://twitter.com/AtticusBones" target="_blank">AtticusBones</a> <a href="https://twitter.com/_kzr" target="_blank">_kzr</a> <a href="https://twitter.com/aiekick" target="_blank">aiekick</a> <a href="https://twitter.com/wearekuva" target="_blank">wearekuva</a> <a href="https://twitter.com/ExUtumno" target="_blank">ExUtumno</a> <a href="https://twitter.com/generateme_blog" target="_blank">generateme_blog</a> <a href="https://twitter.com/genekogan" target="_blank">genekogan</a> <a href="https://twitter.com/wearenocomputer" target="_blank">wearenocomputer</a> <a href="https://twitter.com/" target="_blank"></a> <a href="https://twitter.com/_Nick_Taylor" target="_blank">_Nick_Taylor</a> <a href="https://twitter.com/cupe_cupe" target="_blank">cupe_cupe</a> <a href="https://twitter.com/eddietree" target="_blank">eddietree</a> <a href="https://twitter.com/albertomoss" target="_blank">albertomoss</a> <a href="https://twitter.com/ariweinkle" target="_blank">ariweinkle</a> <a href="https://twitter.com/hughskennedy" target="_blank">hughskennedy</a> <a href="https://twitter.com/TatumCreative" target="_blank">TatumCreative</a> <a href="https://twitter.com/akirodic" target="_blank">akirodic</a> <a href="https://twitter.com/RavenKwok" target="_blank">RavenKwok</a> <a href="https://twitter.com/patriciogv" target="_blank">patriciogv</a> <a href="https://twitter.com/cornusammonis" target="_blank">cornusammonis</a> <a href="https://twitter.com/" target="_blank"></a> <a href="https://twitter.com/mflux" target="_blank">mflux</a> <a href="https://twitter.com/legomushroom" target="_blank">legomushroom</a> <a href="https://twitter.com/roland_huf" target="_blank">roland_huf</a> <a href="https://twitter.com/prideout" target="_blank">prideout</a> <a href="https://twitter.com/p01" target="_blank">p01</a> <a href="https://twitter.com/liabru" target="_blank">liabru</a> <a href="https://twitter.com/kenji_special" target="_blank">kenji_special</a> <a href="https://twitter.com/mattdesl" target="_blank">mattdesl</a> <a href="https://twitter.com/lennyjpg" target="_blank">lennyjpg</a> <a href="https://twitter.com/dbtwr" target="_blank">dbtwr</a> <a href="https://twitter.com/gordonnl" target="_blank">gordonnl</a> <a href="https://twitter.com/kyndinfo" target="_blank">kyndinfo</a> <a href="https://twitter.com/edankwan" target="_blank">edankwan</a> <a href="https://twitter.com/evanbbb?" target="_blank">evanbbb?</a> <a href="https://twitter.com/novastructura" target="_blank">novastructura</a> <a href="https://twitter.com/thespite" target="_blank">thespite</a> <a href="https://twitter.com/moebio" target="_blank">moebio</a> <a href="https://twitter.com/alteredq" target="_blank">alteredq</a> <a href="https://twitter.com/marcinignac" target="_blank">marcinignac</a> <a href="https://twitter.com/BlurSpline" target="_blank">BlurSpline</a> <a href="https://twitter.com/philogb" target="_blank">philogb</a> <a href="https://twitter.com/wblut" target="_blank">wblut</a> <a href="https://twitter.com/toxi" target="_blank">toxi</a> <a href="https://twitter.com/RezaAli" target="_blank">RezaAli</a> <a href="https://twitter.com/soulwire" target="_blank">soulwire</a> <a href="https://twitter.com/oosmoxiecode" target="_blank">oosmoxiecode</a> <a href="https://twitter.com/felixturner" target="_blank">felixturner</a> <a href="https://twitter.com/marpi_" target="_blank">marpi_</a> <a href="https://twitter.com/" target="_blank"></a> <a href="https://twitter.com/subblue" target="_blank">subblue</a> <a href="https://twitter.com/grgrdvrt" target="_blank">grgrdvrt</a> <a href="https://twitter.com/quasimondo" target="_blank">quasimondo</a>
+            </p>
+        </section>
+
+        <section>
+            <h3>useful methods</h3>
         </section>
 
         <section>
@@ -1216,7 +1332,6 @@ rule column w 0.2{
     return lerp( norm( t, a0, b0 ), a1, b1 );
 }</code></pre>
         </section>
-
         <section>
             <h3>distance</h3>
             <pre><code>function distance( p0, p1 ){
@@ -1245,8 +1360,6 @@ x = sin(theta) * cos( phi ) * radius;
 y = sin(theta ) * sin( phi ) * radius;
 z = cos( theta ) * radius;</code></pre>
         </section>
-
-
 
 
     </section>
