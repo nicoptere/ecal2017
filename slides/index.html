@@ -488,8 +488,8 @@
 
         <section>
             <img src="img/space/depthbuffer.jpg" class="stretch"><br>
-            in a 2D projection of a 3D mesh, we lose the <i>depth</i> data<br>
-            we use a depth buffer to represent the "missing data"
+            in a 2D projection of a 3D mesh, the <i>depth</i> data is lost<br>
+            a depth buffer is used to represent the "missing data"
         </section>
 
         <section>
@@ -500,7 +500,7 @@
 
         <section>
             making sense of high dimensional data is hard<br>
-            keep the parameter count as low as you can
+            keep the parameter count as low as possible
         </section>
 
         <section>
@@ -873,10 +873,6 @@ points.forEach(function (p) {
 });</mark></code></pre>
         </section>
 
-        <!--<section data-background-image="">-->
-            <!--<pre class="small stretch"><code><mark></mark></code></pre>-->
-        <!--</section>-->
-
         <section>
             <h3>extension to 3D space</h3>
             <i>just</i> add a third dimension<br>
@@ -919,7 +915,7 @@ points.forEach(function (p) {
 
         <section>
             <p>instead of writing a <i>dictionary</i> of all the valid <i>axioms</i>,<br>
-                we use this FSM to ckeck if an <i>axiom</i> is valid</p>
+                we can use this FSM to ckeck if an <i>axiom</i> is valid</p>
         </section>
 
         <section>
@@ -1112,8 +1108,8 @@ var graph = new Graph( [ A, B ], [ E ] );</mark></code></pre>
 
         <section>
             <p>this is the essence of procedural generation:</p>
-            describing the rules of production rather<br>
-            than describing the objects themselves
+            describing the rules of production<br>
+            rather than the objects themselves
         </section>
 
     </section>
@@ -1125,25 +1121,9 @@ var graph = new Graph( [ A, B ], [ E ] );</mark></code></pre>
             <h3>further considerations</h3>
         </section>
 
-        <section>
-            <h3>parametrisation & expressiveness</h3>
-            drawing an ant
-        </section>
-        <section data-background-image="img/extra/ant/3D.jpg">
-            <h3 style="color: #CCC">hyper-realistic 3D render</h3>
-            <a href="http://jabjork.cgsociety.org/art/ant-3ds-atta-max-laevigata-zbrush-photoshop-realistic-3d-1154254">ANT (Atta laevigata) by javier porcel</a>
-        </section>
-        <section>
-            <img src="img/extra/ant/step3.png">
-            <img src="img/extra/ant/step1.png">
-            <img src="img/extra/ant/step0.png">
-            <br>
-            depending on the context those are equally valid representations of an ant. use relevant parameters
-        </section>
-
         <!--random-->
         <section>
-            <h3>random vs pseudo-random</h3>
+            <h3>random & pseudo-random</h3>
             a <i>random()</i> methods create sequences that are - by definition - hard to reproduce.
             prefer a Pseudo Random Number Generator (PRNG) that produces <i>seemingly</i> random series of numbers
         </section>
@@ -1152,8 +1132,9 @@ var graph = new Graph( [ A, B ], [ E ] );</mark></code></pre>
 
         <!--noise-->
         <section>
-            <h3>random vs noise</h3>
-            random values are often "too random" (discontinuous). you can use a noise to soften the variations
+            <h3>random, noise, turbulence</h3>
+            random values are often "too random". use a noise to soften the variations.
+            a turbulence is an accumulation of noises sampled at various scales (octaves)
         </section>
         <section data-background-image="img/extra/noise.png">
             <pre class="small stretch"><code><mark>
@@ -1212,20 +1193,135 @@ ctx.clearRect(0,0,w/2,h);
 ctx.fillStyle = "#FFF";
 ctx.globalAlpha = .05;
 ctx.fillRect(w/2,0,w/2,h);</mark></code></pre>
+        </section>
 
+        <!--emergence-->
+
+        <!--pseudo circle-->
+        <section>
+            <h3>emergent pattern</h3>
+        </section>
+        <section data-background-image="img/extra/emergence_polar.png">
+            <pre class="small stretch"><code><mark>var morph = Date.now() * 0.0005;
+var time = Date.now() * 0.001;
+
+//points count
+var total = 16;
+var count = Math.min( Math.max( 1, Math.round( ( .5 + Math.cos( morph ) ) * total ) ), total );
+var step = Math.PI / total;
+
+//circle radius
+var radius = h / 3;
+ctx.globalAlpha = .25;
+circle( 0,0, radius );
+
+//circle distribution
+for( var angle = 0; angle < count * step; angle += step ){
+
+    //computes the X / Y position
+    var x = Math.cos( angle ) * radius * ( Math.cos( angle + time ));
+    var y = Math.sin( angle ) * radius * ( Math.cos( angle + time ));
+
+    //draw this point
+    ctx.globalAlpha = 1;
+    circle( x, y, 3 );
+
+    //draw the line
+    ctx.globalAlpha = .25;
+    line(   Math.cos( angle ) * radius, Math.sin( angle ) * radius,
+            Math.cos( angle ) * -radius, Math.sin( angle ) * -radius );
+
+}</mark>
+            </code></pre>
+        </section>
+
+        <!--flocking-->
+        <section>
+            <h3>emergent behaviour</h3>
+        </section>
+        <section data-background-image="img/extra/emergence_flocking.png">
+            <pre class="small stretch"><code><mark>//tests proximity to all other boids
+boids.forEach(function (other) {
+
+    //if it's the same object, bail out
+    if (boid == other)return;
+
+    //compute position delta
+    var dx = boid.x - other.x;
+    var dy = boid.y - other.y;
+
+    //compute boids' distance
+    var dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < boid.separation) {
+        separation.x += dx;
+        separation.y += dy;
+    }else{
+        if (dist < boid.cohesion) {
+            cohesion.x += dx;
+            cohesion.y += dy;
+        }
+        if (dist < boid.alignment) {
+            alignment.x += other.speed.x;
+            alignment.y += other.speed.y;
+        }
+    }
+});
+
+//computes the total acceleration
+
+if( separation.length() > 0 ){
+    separation.normalize().multiplyScalar( separate );
+    boid.acceleration.add( separation );
+}
+
+if( cohesion.length() > 0 ){
+    cohesion.normalize().multiplyScalar( cohede );
+    boid.acceleration.sub( cohesion );
+}
+
+if( alignment.length() > 0 ){
+    alignment.normalize().multiplyScalar( align );
+    boid.acceleration.sub( alignment );
+}</mark></code></pre>
+        </section>
+
+        <section>
+            <h3>parametrisation & expressiveness</h3>
+            drawing an ant
+        </section>
+        <section data-background-image="img/extra/ant/3D.jpg">
+            <h3 style="color: #CCC">hyper-realistic 3D render</h3>
+            <a href="http://jabjork.cgsociety.org/art/ant-3ds-atta-max-laevigata-zbrush-photoshop-realistic-3d-1154254">ANT (Atta laevigata) by javier porcel</a>
+        </section>
+        <section>
+            <img src="img/extra/ant/step3.png">
+            <img src="img/extra/ant/step1.png">
+            <img src="img/extra/ant/step0.png">
+            <br>
+            depending on the context those are equally valid representations of an ant. use relevant parameters
         </section>
 
         <section>
             <h3>graphic tools</h3>
         </section>
 
+
+        <!--p5-->
+        <section data-background-image="img/extra/tools/processing.png">
+            <h3><a href="https://processing.org/">processing</a></h3>
+        </section>
+
+        <!--OF-->
+        <section data-background-image="img/extra/tools/openframeworks.png">
+            <h3><a href="http://openframeworks.cc/">openframeworks</a></h3>
+        </section>
+
         <!--structure synth-->
-        <!--context free grammar-->
         <section>
             <h3>context free grammar</h3>
             <i>recursively</i> applies <i>production rules</i> and stops when the <i>axiom</i> only contains terminal symbols (primitives)
         </section>
-        <section data-background-image="img/process/structure_synth0.png">
+        <section data-background-image="img/extra/tools/structure_synth/structure_synth0.png">
             <h3><a href="http://structuresynth.sourceforge.net/">structuresynth</a></h3>
             <pre class="small"><code>#define _col0 #F00
 #define _col1 #FF0
@@ -1241,31 +1337,43 @@ rule column w 0.2{
     20 * { rx 1 ry 1.5 rz 3 s 0.75 0.95 1.10  blend _col1 _inc }box
 }</code></pre>
         </section>
-        <section data-background-image="img/process/structure_synth1.png">
+        <section data-background-image="img/extra/tools/structure_synth/structure_synth1.png">
         </section>
-        <section data-background-image="img/process/structure_synth2.png">
+        <section data-background-image="img/extra/tools/structure_synth/structure_synth2.png">
         </section>
-        <section data-background-image="img/process/structure_synth3.png">
+        <section data-background-image="img/extra/tools/structure_synth/structure_synth3.png">
         </section>
         <section>
-            <h3><a href="https://after12am.github.io/eisenscript-editor/">eisenscript live demo</a></h3>
+            <h3><a href="https://www.contextfreeart.org/">context free art (2d)</a></h3>
+            <h3><a href="https://after12am.github.io/eisenscript-editor/">eisenscript demo (3D)</a></h3>
         </section>
 
         <!--magicavoxel-->
-        <section data-background-image="img/extra/tools/magica_closeup.png"><h3><a href="https://ephtracy.github.io/">magicavoxel</a></h3></section>
-        <section data-background-image="img/extra/tools/magica_sphere.png"></section>
+        <section data-background-image="img/extra/tools/magicavoxel_closeup.png"><h3><a href="https://ephtracy.github.io/">magicavoxel</a></h3></section>
+        <section data-background-image="img/extra/tools/magicavoxel_sphere.png"></section>
+        <section data-background-image="img/extra/tools/magicavoxel_shader.png"></section>
+
+        <!--shadertoy-->
         <section data-background-image="img/extra/tools/shadertoy.png">
             <h3><a href="https://www.shadertoy.com/">shadertoy</a></h3>
-            shader magic tricks
+            fragment shader black magic
         </section>
+
+        <!--houdini-->
         <section data-background-image="img/extra/tools/houdini.jpg">
             <h3><a href="https://www.sidefx.com/products/houdini-education/">houdini</a></h3>
             <a href="http://www.entagma.com/">excellent series of tutorials</a>
         </section>
 
+        <!--blender-->
         <section data-background-image="img/extra/tools/blender.jpg">
             <h3><a href="https://www.blender.org/">blender</a></h3>
             <a href="https://wiki.blender.org/index.php/Doc:FR/2.4/Manual/Extensions/Python/Example">functional scripting example</a>
+        </section>
+
+        <!--meshlab-->
+        <section data-background-image="img/extra/tools/meshlab.png">
+            <h3><a href="http://www.meshlab.net/">meshlab</a></h3>
         </section>
 
         <section>
@@ -1291,12 +1399,13 @@ rule column w 0.2{
             <a href="https://www.field.io/">field.io</a><br>
             <a href="http://waltzbinaire.com/">waltz binaire</a><br>
             <a href="http://nocomputer.be/">no computer</a><br>
+            <a href="http://www.am-cb.net/">AM-CB</a><br>
         </section>
 
         <section>
             <h3>twitter accounts</h3>
             <p style="font-size: .75em">
-            <a href="https://twitter.com/tylhobbs" target="_blank">tylhobbs</a> <a href="https://twitter.com/MacTuitui" target="_blank">MacTuitui</a> <a href="https://twitter.com/P_Malin" target="_blank">P_Malin</a> <a href="https://twitter.com/FogleBird" target="_blank">FogleBird</a> <a href="https://twitter.com/pissang1" target="_blank">pissang1</a> <a href="https://twitter.com/mystaticself" target="_blank">mystaticself</a> <a href="https://twitter.com/M_PF" target="_blank">M_PF</a> <a href="https://twitter.com/Flexi23" target="_blank">Flexi23</a> <a href="https://twitter.com/JoanieLemercier" target="_blank">JoanieLemercier</a> <a href="https://twitter.com/inconvergent" target="_blank">inconvergent</a> <a href="https://twitter.com/WilliamChyr" target="_blank">WilliamChyr</a> <a href="https://twitter.com/mariuswatz" target="_blank">mariuswatz</a> <a href="https://twitter.com/" target="_blank"></a> <a href="https://twitter.com/xorxor_hu" target="_blank">xorxor_hu</a> <a href="https://twitter.com/hyper_glu" target="_blank">hyper_glu</a> <a href="https://twitter.com/AdrienMClaireB" target="_blank">AdrienMClaireB</a> <a href="https://twitter.com/laserberg" target="_blank">laserberg</a> <a href="https://twitter.com/AtticusBones" target="_blank">AtticusBones</a> <a href="https://twitter.com/_kzr" target="_blank">_kzr</a> <a href="https://twitter.com/aiekick" target="_blank">aiekick</a> <a href="https://twitter.com/wearekuva" target="_blank">wearekuva</a> <a href="https://twitter.com/ExUtumno" target="_blank">ExUtumno</a> <a href="https://twitter.com/generateme_blog" target="_blank">generateme_blog</a> <a href="https://twitter.com/genekogan" target="_blank">genekogan</a> <a href="https://twitter.com/wearenocomputer" target="_blank">wearenocomputer</a> <a href="https://twitter.com/" target="_blank"></a> <a href="https://twitter.com/_Nick_Taylor" target="_blank">_Nick_Taylor</a> <a href="https://twitter.com/cupe_cupe" target="_blank">cupe_cupe</a> <a href="https://twitter.com/eddietree" target="_blank">eddietree</a> <a href="https://twitter.com/albertomoss" target="_blank">albertomoss</a> <a href="https://twitter.com/ariweinkle" target="_blank">ariweinkle</a> <a href="https://twitter.com/hughskennedy" target="_blank">hughskennedy</a> <a href="https://twitter.com/TatumCreative" target="_blank">TatumCreative</a> <a href="https://twitter.com/akirodic" target="_blank">akirodic</a> <a href="https://twitter.com/RavenKwok" target="_blank">RavenKwok</a> <a href="https://twitter.com/patriciogv" target="_blank">patriciogv</a> <a href="https://twitter.com/cornusammonis" target="_blank">cornusammonis</a> <a href="https://twitter.com/" target="_blank"></a> <a href="https://twitter.com/mflux" target="_blank">mflux</a> <a href="https://twitter.com/legomushroom" target="_blank">legomushroom</a> <a href="https://twitter.com/roland_huf" target="_blank">roland_huf</a> <a href="https://twitter.com/prideout" target="_blank">prideout</a> <a href="https://twitter.com/p01" target="_blank">p01</a> <a href="https://twitter.com/liabru" target="_blank">liabru</a> <a href="https://twitter.com/kenji_special" target="_blank">kenji_special</a> <a href="https://twitter.com/mattdesl" target="_blank">mattdesl</a> <a href="https://twitter.com/lennyjpg" target="_blank">lennyjpg</a> <a href="https://twitter.com/dbtwr" target="_blank">dbtwr</a> <a href="https://twitter.com/gordonnl" target="_blank">gordonnl</a> <a href="https://twitter.com/kyndinfo" target="_blank">kyndinfo</a> <a href="https://twitter.com/edankwan" target="_blank">edankwan</a> <a href="https://twitter.com/evanbbb?" target="_blank">evanbbb?</a> <a href="https://twitter.com/novastructura" target="_blank">novastructura</a> <a href="https://twitter.com/thespite" target="_blank">thespite</a> <a href="https://twitter.com/moebio" target="_blank">moebio</a> <a href="https://twitter.com/alteredq" target="_blank">alteredq</a> <a href="https://twitter.com/marcinignac" target="_blank">marcinignac</a> <a href="https://twitter.com/BlurSpline" target="_blank">BlurSpline</a> <a href="https://twitter.com/philogb" target="_blank">philogb</a> <a href="https://twitter.com/wblut" target="_blank">wblut</a> <a href="https://twitter.com/toxi" target="_blank">toxi</a> <a href="https://twitter.com/RezaAli" target="_blank">RezaAli</a> <a href="https://twitter.com/soulwire" target="_blank">soulwire</a> <a href="https://twitter.com/oosmoxiecode" target="_blank">oosmoxiecode</a> <a href="https://twitter.com/felixturner" target="_blank">felixturner</a> <a href="https://twitter.com/marpi_" target="_blank">marpi_</a> <a href="https://twitter.com/" target="_blank"></a> <a href="https://twitter.com/subblue" target="_blank">subblue</a> <a href="https://twitter.com/grgrdvrt" target="_blank">grgrdvrt</a> <a href="https://twitter.com/quasimondo" target="_blank">quasimondo</a>
+            <a href="https://twitter.com/tylhobbs" target="_blank">tylhobbs</a> <a href="https://twitter.com/MacTuitui" target="_blank">MacTuitui</a> <a href="https://twitter.com/P_Malin" target="_blank">P_Malin</a> <a href="https://twitter.com/FogleBird" target="_blank">FogleBird</a> <a href="https://twitter.com/pissang1" target="_blank">pissang1</a> <a href="https://twitter.com/mystaticself" target="_blank">mystaticself</a> <a href="https://twitter.com/M_PF" target="_blank">M_PF</a> <a href="https://twitter.com/Flexi23" target="_blank">Flexi23</a> <a href="https://twitter.com/JoanieLemercier" target="_blank">JoanieLemercier</a> <a href="https://twitter.com/inconvergent" target="_blank">inconvergent</a> <a href="https://twitter.com/WilliamChyr" target="_blank">WilliamChyr</a> <a href="https://twitter.com/mariuswatz" target="_blank">mariuswatz</a> <a href="https://twitter.com/" target="_blank"></a> <a href="https://twitter.com/xorxor_hu" target="_blank">xorxor_hu</a> <a href="https://twitter.com/hyper_glu" target="_blank">hyper_glu</a> <a href="https://twitter.com/AdrienMClaireB" target="_blank">AdrienMClaireB</a> <a href="https://twitter.com/laserberg" target="_blank">laserberg</a> <a href="https://twitter.com/AtticusBones" target="_blank">AtticusBones</a> <a href="https://twitter.com/_kzr" target="_blank">_kzr</a> <a href="https://twitter.com/aiekick" target="_blank">aiekick</a> <a href="https://twitter.com/wearekuva" target="_blank">wearekuva</a> <a href="https://twitter.com/ExUtumno" target="_blank">ExUtumno</a> <a href="https://twitter.com/generateme_blog" target="_blank">generateme_blog</a> <a href="https://twitter.com/genekogan" target="_blank">genekogan</a> <a href="https://twitter.com/wearenocomputer" target="_blank">wearenocomputer</a> <a href="https://twitter.com/" target="_blank"></a> <a href="https://twitter.com/_Nick_Taylor" target="_blank">_Nick_Taylor</a> <a href="https://twitter.com/cupe_cupe" target="_blank">cupe_cupe</a> <a href="https://twitter.com/eddietree" target="_blank">eddietree</a> <a href="https://twitter.com/albertomoss" target="_blank">albertomoss</a> <a href="https://twitter.com/ariweinkle" target="_blank">ariweinkle</a> <a href="https://twitter.com/hughskennedy" target="_blank">hughskennedy</a> <a href="https://twitter.com/TatumCreative" target="_blank">TatumCreative</a> <a href="https://twitter.com/akirodic" target="_blank">akirodic</a> <a href="https://twitter.com/RavenKwok" target="_blank">RavenKwok</a> <a href="https://twitter.com/patriciogv" target="_blank">patriciogv</a> <a href="https://twitter.com/cornusammonis" target="_blank">cornusammonis</a> <a href="https://twitter.com/" target="_blank"></a> <a href="https://twitter.com/mflux" target="_blank">mflux</a> <a href="https://twitter.com/legomushroom" target="_blank">legomushroom</a> <a href="https://twitter.com/roland_huf" target="_blank">roland_huf</a> <a href="https://twitter.com/prideout" target="_blank">prideout</a> <a href="https://twitter.com/p01" target="_blank">p01</a> <a href="https://twitter.com/liabru" target="_blank">liabru</a> <a href="https://twitter.com/kenji_special" target="_blank">kenji_special</a> <a href="https://twitter.com/mattdesl" target="_blank">mattdesl</a> <a href="https://twitter.com/lennyjpg" target="_blank">lennyjpg</a> <a href="https://twitter.com/dbtwr" target="_blank">dbtwr</a> <a href="https://twitter.com/gordonnl" target="_blank">gordonnl</a> <a href="https://twitter.com/kyndinfo" target="_blank">kyndinfo</a> <a href="https://twitter.com/edankwan" target="_blank">edankwan</a> <a href="https://twitter.com/evanbbb?" target="_blank">evanbbb?</a> <a href="https://twitter.com/novastructura" target="_blank">novastructura</a> <a href="https://twitter.com/thespite" target="_blank">thespite</a> <a href="https://twitter.com/moebio" target="_blank">moebio</a> <a href="https://twitter.com/alteredq" target="_blank">alteredq</a> <a href="https://twitter.com/marcinignac" target="_blank">marcinignac</a> <a href="https://twitter.com/BlurSpline" target="_blank">BlurSpline</a> <a href="https://twitter.com/philogb" target="_blank">philogb</a> <a href="https://twitter.com/wblut" target="_blank">wblut</a> <a href="https://twitter.com/toxi" target="_blank">toxi</a> <a href="https://twitter.com/RezaAli" target="_blank">RezaAli</a> <a href="https://twitter.com/soulwire" target="_blank">soulwire</a> <a href="https://twitter.com/oosmoxiecode" target="_blank">oosmoxiecode</a> <a href="https://twitter.com/felixturner" target="_blank">felixturner</a> <a href="https://twitter.com/marpi_" target="_blank">marpi_</a> <a href="https://twitter.com/" target="_blank"></a> <a href="https://twitter.com/subblue" target="_blank">subblue</a> <a href="https://twitter.com/grgrdvrt" target="_blank">grgrdvrt</a> <a href="https://twitter.com/quasimondo" target="_blank">quasimondo</a> <a href="https://twitter.com/flight404" target="_blank">flight404</a> <a href="https://twitter.com/sougwen" target="_blank">sougwen</a> <a href="https://twitter.com/kcimc" target="_blank">kcimc</a>
             </p>
         </section>
 
