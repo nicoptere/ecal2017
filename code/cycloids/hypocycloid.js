@@ -25,18 +25,16 @@ function update() {
     var time0 = Date.now() * 0.001;
 
     //position around the big circle
-    //( circle0.radius + circle1.radius ) will place the circle "outside" the big circle
-    var cx = circle0.x + Math.cos( time0 ) * ( circle0.radius + circle1.radius );
-    var cy = circle0.y + Math.sin( time0 ) * ( circle0.radius + circle1.radius );
+    //( circle0.radius - circle1.radius ) will place the circle "inside" the big circle
+    var cx = circle0.x + Math.cos( time0 ) * ( circle0.radius - circle1.radius );
+    var cy = circle0.y + Math.sin( time0 ) * ( circle0.radius - circle1.radius );
     circle( cx, cy, circle1.radius);
 
-
     //position around the small circle
-    var time1 = -time0 * 4;
+    var time1 = -time0 * 2;
 
     var px = cx + Math.cos( time1 ) * circle1.radius;
     var py = cy + Math.sin( time1 ) * circle1.radius;
-
     circle( px, py, 3 );
 
     //store the new position

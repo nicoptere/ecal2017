@@ -13,30 +13,23 @@ function update() {
     ctx.strokeStyle = "#000";
 
     //principle: trace the rotation of a circle rotating around another circle
-    var circle0 = new Point(0,0);
-    circle0.radius = h/4;
-    circle(circle0.x, circle0.y, circle0.radius);
-
-    //creates a smaller circle
-    var circle1 = new Point(0,0);
-    circle1.radius = h/12;
+    var circ = new Point(0,0);
+    circ.radius = h/6;
+    circle(circ.x, circ.y, circ.radius);
 
     //rotation speed around the big circle
-    var time0 = Date.now() * 0.001;
+    var time = Date.now() * 0.001;
 
     //position around the big circle
-    //( circle0.radius + circle1.radius ) will place the circle "outside" the big circle
-    var cx = circle0.x + Math.cos( time0 ) * ( circle0.radius + circle1.radius );
-    var cy = circle0.y + Math.sin( time0 ) * ( circle0.radius + circle1.radius );
-    circle( cx, cy, circle1.radius);
+    var cx = circ.x + Math.cos( time ) * ( circ.radius * 2 );
+    var cy = circ.y + Math.sin( time ) * ( circ.radius * 2 );
+    circle( cx, cy, circ.radius);
 
 
-    //position around the small circle
-    var time1 = -time0 * 4;
-
-    var px = cx + Math.cos( time1 ) * circle1.radius;
-    var py = cy + Math.sin( time1 ) * circle1.radius;
-
+    var c = 2 * Math.cos( time ) - Math.cos( 2 * time );
+    var s = 2 * Math.sin( time ) - Math.sin( 2 * time );
+    var px = ( c * circ.radius );
+    var py = ( s * circ.radius );
     circle( px, py, 3 );
 
     //store the new position
