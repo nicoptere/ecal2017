@@ -66,10 +66,12 @@ function update(){
     var e = new Point( w/2, h*.75 );
     drawLine(s,e);
 
+
+    //hand made
     var ip = raySegmentIntersection( s,e, line[0], line[1] );
     if( ip != null ){
 
-        //red triangle
+        // red triangle
         var inVector = ip.clone().sub( s ).normalize().multiplyScalar( 50 );
         ctx.fillStyle = "#F00";
         ctx.strokeStyle = "#F00";
@@ -79,7 +81,6 @@ function update(){
         ctx.strokeStyle = "#06C";
         var reflectionAxis = [ip, ip.clone().add( normal(line[0], line[1] ).normalize().multiplyScalar( 150 ) )];
         drawLine(reflectionAxis[0], reflectionAxis[1]);
-
 
         //green circle, arrow and line
         ctx.fillStyle = "#0C6";
@@ -95,10 +96,25 @@ function update(){
         circle( ip.x, ip.y, 5 );
     }
 
+    //equivalent to using the geomUtils.bounceVector() method :)
+
+    // ctx.strokeStyle = "#06C";
+    // var bv = geomUtils.bounceVector(s,e,line[0], line[1]);
+    // drawLine(s, bv[0]);
+    // drawLine(bv[0], bv[1]);
+
+
+
 
 }
 update();
 
+var mouse = new Point();
+mouse.radius = 100;
+window.addEventListener( 'mousemove', function (e) {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+});
 
 
 

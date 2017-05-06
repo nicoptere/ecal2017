@@ -30,10 +30,11 @@ Point.prototype = {
     length : function(){
         return Math.sqrt( this.x * this.x + this.y * this.y );
     },
-    normalize : function(){
+    normalize : function( value ){
         var l = this.length();
         this.x/=l;
         this.y/=l;
+        if( value != null )this.multiplyScalar(value);
         return this;
     },
     multiplyScalar : function( value ){
@@ -43,6 +44,9 @@ Point.prototype = {
     },
     direction : function( other ){
         return other.clone().sub(this).normalize();
+    },
+    negate : function(){
+        this.x *= -1;this.y *= -1;return this;
     },
     dot : function ( p ){
         return this.x * p.x + this.y * p.y;
