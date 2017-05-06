@@ -15,31 +15,6 @@ function update(){
     requestAnimationFrame( update );
     ctx.fillRect( 0,0,w,h );
 
-    /*
-    var t = Date.now() * 0.001;
-    var p = new Point();
-    var n = new Point();
-    var RAD = Math.PI / 180;
-    ctx.lineWidth = 5;
-    for( var i = 0; i <  Math.PI * 2; i += RAD ){
-        n.x = c.x + Math.cos( i ) * c.radius;
-        n.y = c.y + Math.sin( i ) * c.radius;
-
-        var radius = c.radius * ( ( Math.sin( t + i * 3  )* Math.cos( t ) )  * .5 + .5 ) * 2 ;
-        p.x = c.x + Math.cos( i + RAD * 30 ) * radius;
-        p.y = c.y + Math.sin( i + RAD * 30 ) * radius;
-
-        var grad = ctx.createRadialGradient( n.x,n.y, 0, n.x, n.y, Math.abs( radius ) );
-        grad.addColorStop( 0, "rgba(255, 255, 255, 1 )" );
-        grad.addColorStop( 1, "rgba(255, 255, 255, 0 )" );
-        ctx.strokeStyle = grad;
-
-        G.line(p,n);
-    }
-    //*/
-
-
-    // /*
     ctx.strokeStyle = "#FFF";
     ctx.fillStyle = "#FFF";
     G.disc(mouse.x, mouse.y, mouse.radius);
@@ -76,8 +51,6 @@ function update(){
         });
 
     })
-
-
 
 }
 

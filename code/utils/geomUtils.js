@@ -630,8 +630,9 @@ var geomUtils = function(exports) {
      * @param    circle
      * @return
      */
-    exports.lineCircleIntersection = function (startPoint, endPoint, circle) {
+    exports.lineCircleIntersection = function (startPoint, endPoint, circle, asRay) {
 
+        asRay = Boolean( asRay ) == true;
         var p0 = startPoint.clone().sub( circle );
         var p1 = endPoint.clone().sub( circle );
 
@@ -678,7 +679,7 @@ var geomUtils = function(exports) {
         // Ray now found to intersect sphere, compute smallest t value of intersection
         var t = -b - Math.sqrt(discr);
         // If t is negative, ray started inside sphere so clamp t to zero
-        if (t < 0 ) t = 0;
+        if (t < 0 ) return null;
         return p0.clone().add( d.multiplyScalar(t) );
     };
 

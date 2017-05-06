@@ -40,6 +40,13 @@ function update(){
 
 }
 
+
+var mouse = new Point(w/2, h/2);
+mouse.radius = 100;
+window.addEventListener( 'mousemove', function (e) {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+});
 var c = new Point(w/2, h/2);
 c.radius = h / 4;
 var G = new Graphics( ctx );
