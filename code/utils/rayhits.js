@@ -114,8 +114,9 @@ for( var i = 0; i < tot; i++ ){
     var a = Math.random() * Math.PI * 2;
 
     var s = new Point(
-        w/2+Math.cos(a      )*h,
-        h/2+Math.sin(a * 3.1)*h/4 + Math.random() - .5
+        w / 2 - ( Math.random() -.5 ) * 50,
+        h / 2 - ( Math.random() -.5 ) * 50
+
     );
 
     // var r = 30 + ( Math.sin( a * 5 ) ) * 30 ;// + ( Math.random() > .9 ) ? Math.random() * 20 : Math.random() * 5;
@@ -128,6 +129,13 @@ for( var i = 0; i < tot; i++ ){
     rays.push( [ s, e, a, r, a1 ] );
 
 }
+
+
+
+
+
+
+
 
 function repel(rays){
 

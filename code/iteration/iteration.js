@@ -30,11 +30,11 @@ function reset() {
             ctx.moveTo( p[0], p[1] );
 
             //updates angle
-            angles[id] += ( Math.random() - .5 ) * RAD * speeds[id];
-
+             angles[id] += ( Math.random() - .5 ) * RAD * speeds[id];
+            //
             //updates poistion
-            p[0] += Math.sin( angles[id] );
-            p[1] += Math.cos( angles[id] );
+            p[0] += Math.cos( angles[id] );
+            p[1] += Math.sin( angles[id] );
 
             //draws line to new position
             ctx.lineTo( p[0], p[1] );
